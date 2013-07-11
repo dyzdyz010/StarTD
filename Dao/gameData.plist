@@ -27,25 +27,25 @@
 	<array>
 		<dict>
 			<key>name</key>
-			<string>Lost Temple</string>
+			<string>Aiur</string>
 			<key>wave</key>
 			<integer>20</integer>
 		</dict>
 		<dict>
 			<key>name</key>
-			<string>Discord IV</string>
+			<string>Char</string>
 			<key>wave</key>
 			<integer>20</integer>
 		</dict>
 		<dict>
 			<key>name</key>
-			<string>Derelict Watcher TE</string>
+			<string>Korhal</string>
 			<key>wave</key>
 			<integer>20</integer>
 		</dict>
 		<dict>
 			<key>name</key>
-			<string>Akilon Flats</string>
+			<string>Marsara</string>
 			<key>wave</key>
 			<integer>20</integer>
 		</dict>
