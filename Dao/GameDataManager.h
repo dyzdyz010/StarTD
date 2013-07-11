@@ -7,39 +7,11 @@
 //
 
 #import <Foundation/Foundation.h>
-
-//**********************************************************************************************************
-//
-//	数据键宏
-//
-//**********************************************************************************************************
-
-// Attack Definitions
-#define ATTACK_RATE @"attack-rate"
-#define ATTACK_BOUND @"attack-bound"
-#define ATTACK_SPEED @"attack-speed"
-
-// Defense Definitions
-#define DEFENSE_RATE @"defense-rate"
-#define HEALTH_RATE @"health-rate"
-
-typedef enum {
-    Terran = 0,
-    Protoss = 1,
-    Zerg = 2
-} Race;
-
-typedef struct{
-    int attackRate;
-    int attackBound;
-    int attachSpeed;
-    
-    int defenseRate;
-    int healthRate;
-} Upgrades;
+#include "DataStructures.h"
 
 @interface GameDataManager : NSObject {
-    NSDictionary *_infoDic;
+    NSMutableDictionary *_infoDic;
+    NSString *dstPath;
 }
 
 /*!
@@ -51,7 +23,19 @@ typedef struct{
  *				当前可用技能点总数。
  */
 @property(nonatomic, assign) int skillPoint;
-@property(nonatomic, assign) int score;
 
+/*!
+ *				单例入口。
+ */
 + (id)sharedManager;
+
+/*!
+ *				升级对应能力。
+ *  @param      name
+ *              要升级的能力的名称。
+ *
+ *  @result     如果升级成功，返回nil，否则返回相应错误。
+ */
+- (NSError *)upgrade:(NSString *)name;
+- (NSError *)downgrade:(NSString *)name;
 @end
