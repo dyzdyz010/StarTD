@@ -22,8 +22,8 @@
 #define ENEMIES  @"Enemies"
 
 // User definitions
-#define SKILLPOINT @"skill-point"
-#define LEVEL @"level"
+#define SKILLPOINT @"skill-point"   // 当前用户拥有的技能点。
+#define LEVEL @"level"              // 当前用户到达的关卡序号。
 
 // Missions definitions
 #define NAME @"name"
@@ -75,21 +75,6 @@
 //	数据结构
 //
 //**********************************************************************************************************
-
-typedef enum {
-    Terran = 0,
-    Protoss = 1,
-    Zerg = 2
-} Race;
-
-typedef struct{
-    int attackRate;
-    int attackBound;
-    int attachSpeed;
-    
-    int defenseRate;
-    int healthRate;
-} Upgrades;
 
 /*!
  *				升级错误信息。

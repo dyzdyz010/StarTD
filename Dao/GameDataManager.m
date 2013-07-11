@@ -15,9 +15,13 @@
 }
 - (void)loadProperties;
 
+- (void)writeProperties;
+
 @end
 
 @implementation GameDataManager
+@synthesize skillPoint = _skillPoint, settings = _settingsDic;
+
 static GameDataManager *instance;
 
 + (GameDataManager *)sharedManager
@@ -60,10 +64,17 @@ static GameDataManager *instance;
 {
     _upgradesDic = [_infoDic objectForKey:UPGRADES];
     _userDic = [_infoDic objectForKey:USER];
+    _skillPoint = [_userDic valueForKey:SKILLPOINT];
     _settingsDic = [_infoDic objectForKey:SETTINGS];
+    
     NSLog(@"%@", _upgradesDic);
     NSLog(@"%@", _userDic);
     NSLog(@"%@", _settingsDic);
+}
+
+- (NSInteger)levelForSkill:(NSString *)name
+{
+    return [[_upgradesDic valueForKey:name] intValue];
 }
 
 - (NSError *)upgrade:(NSString *)name
@@ -78,6 +89,7 @@ static GameDataManager *instance;
     }
     
     [_upgradesDic setValue:[NSNumber numberWithInt:level + 1] forKey:name];
+    [self writeProperties];
     
     return nil;
 }
@@ -94,8 +106,24 @@ static GameDataManager *instance;
     }
     
     [_upgradesDic setValue:[NSNumber numberWithInt:level - 1] forKey:name];
+    [self writeProperties];
     
     return nil;
+}
+
+- (NSDictionary *)missionByIndex:(NSInteger)index
+{
+    return [[_infoDic objectForKey:MISSIONS] objectAtIndex:index];
+}
+
+- (NSArray *)enemiesByRace:(NSString *)race
+{
+    return [[_infoDic objectForKey:ENEMIES] objectForKey:race];
+}
+
+- (void)writeProperties
+{
+    [_infoDic writeToFile:dstPath atomically:YES];
 }
 
 @end

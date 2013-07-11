@@ -118,17 +118,17 @@
 		<array>
 			<dict>
 				<key>name</key>
-				<string></string>
+				<string>zealot</string>
 				<key>amount</key>
-				<string></string>
+				<integer>10</integer>
 				<key>move-speed</key>
-				<string></string>
+				<integer>0</integer>
 				<key>attack-rate</key>
-				<string></string>
+				<integer>0</integer>
 				<key>attack-speed</key>
-				<string></string>
+				<integer>0</integer>
 				<key>health</key>
-				<string></string>
+				<integer>0</integer>
 			</dict>
 			<dict>
 				<key>name</key>
