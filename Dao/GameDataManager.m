@@ -67,9 +67,9 @@ static GameDataManager *instance;
     _skillPoint = [_userDic valueForKey:SKILLPOINT];
     _settingsDic = [_infoDic objectForKey:SETTINGS];
     
-    NSLog(@"%@", _upgradesDic);
-    NSLog(@"%@", _userDic);
-    NSLog(@"%@", _settingsDic);
+    //NSLog(@"%@", _upgradesDic);
+    //NSLog(@"%@", _userDic);
+    //NSLog(@"%@", _settingsDic);
 }
 
 - (NSInteger)levelForSkill:(NSString *)name
@@ -129,6 +129,7 @@ static GameDataManager *instance;
 - (void)updateSettings:(NSDictionary *)settings ForCategory:(NSString *)category
 {
     [_settingsDic setValue:settings forKey:category];
+    NSLog(@"%@", _settingsDic);
     [self writeProperties];
 }
 

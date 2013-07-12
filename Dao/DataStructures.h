@@ -34,7 +34,7 @@
 #define SOUND @"sound"
 #define EFFECT @"effect"
 #define MUSIC @"music"
-#define MUTE @"mute"
+#define ENABLE @"enable"
 #define VOLUME @"volume"
 
 // Graphics definitions
