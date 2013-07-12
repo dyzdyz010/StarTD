@@ -25,11 +25,6 @@
 @property (nonatomic, retain) NSString *language;
 
 /*!
- *				当前游戏中所用的设置。
- */
-@property (nonatomic, retain) NSDictionary *settings;
-
-/*!
  *				单例入口。
  *
  *  @result     返回GameDataManager单实例对象。
@@ -80,7 +75,7 @@
 - (NSDictionary *)missionByIndex:(NSInteger)index;
 
 /*!
- *              获取制定种族的敌人单位列表。
+ *              获取指定种族的敌人单位列表。
  *
  *  @param      race
  *              指定的种族。
@@ -88,4 +83,32 @@
  *  @result     对应种族的敌人单位列表。
  */
 - (NSArray *)enemiesByRace:(NSString *)race;
+
+#pragma mark -
+#pragma mark -设置相关
+
+/*!
+ *              获取指定类别的设置（声音／画面）。
+ *
+ *  @param      category
+ *              指定的设置类别的名称。
+ *
+ *  @result     对应类别的设置字典。
+ */
+- (NSDictionary *)settingsForCategory:(NSString *)category;
+
+/*!
+ *              更新指定类别的设置（声音／画面）。
+ *
+ *  @param      settings
+ *              更新后的设置字典。
+ *
+ *  @param      category
+ *              指定的设置类别的名称。
+ */
+- (void)updateSettings:(NSDictionary *)settings ForCategory:(NSString *)category;
+
+
+
+
 @end

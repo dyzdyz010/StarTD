@@ -20,7 +20,7 @@
 @end
 
 @implementation GameDataManager
-@synthesize skillPoint = _skillPoint, settings = _settingsDic;
+@synthesize skillPoint = _skillPoint;
 
 static GameDataManager *instance;
 
@@ -120,6 +120,18 @@ static GameDataManager *instance;
 {
     return [[_infoDic objectForKey:ENEMIES] objectForKey:race];
 }
+
+- (NSDictionary *)settingsForCategory:(NSString *)category
+{
+    return [_settingsDic objectForKey:category];
+}
+
+- (void)updateSettings:(NSDictionary *)settings ForCategory:(NSString *)category
+{
+    [_settingsDic setValue:settings forKey:category];
+    [self writeProperties];
+}
+
 
 - (void)writeProperties
 {
