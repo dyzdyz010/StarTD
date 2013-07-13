@@ -141,7 +141,8 @@ BOOL equal(NGLvec3 a, NGLvec3 b)
     //NGLShaders *shader = [NGLShaders shadersWithFilesVertex:@"shader.vsh" andFragment:@"shader.fsh"];
     //_mesh.shaders = shader;
     //[self performSelector:@selector(updateCoreMesh)];
-    [self updateCoreMesh];
+    //[self updateCoreMesh];
+    [self performSelector:@selector(updateCoreMesh)];
 }
 
 - (void)loadHeightMap
@@ -152,7 +153,7 @@ BOOL equal(NGLvec3 a, NGLvec3 b)
     _height = CGImageGetHeight(imageRef);
     NSLog(@"Width: %d, Height: %d", _width, _height);
     CGDataProviderRef provider = CGImageGetDataProvider(imageRef);
-    NSData *data = (id)CGDataProviderCopyData(provider);
+    NSData *data = (__bridge id)CGDataProviderCopyData(provider);
     _heightData = (Byte *)[data bytes];
     
     _vertics = (Vertex *)calloc(_width * _height, sizeof(Vertex));
@@ -226,7 +227,7 @@ BOOL equal(NGLvec3 a, NGLvec3 b)
     _width = CGImageGetWidth(imageRef);
     _height = CGImageGetHeight(imageRef);
     CGDataProviderRef provider = CGImageGetDataProvider(imageRef);
-    NSData *data = (id)CGDataProviderCopyData(provider);
+    NSData *data = (__bridge id)CGDataProviderCopyData(provider);
     Byte *_normData = (Byte *)[data bytes];
     
     for (int i = 0; i < _width * _height; i++) {
