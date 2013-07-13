@@ -113,17 +113,22 @@ static GameDataManager *instance;
 
 - (NSDictionary *)missionByIndex:(NSInteger)index
 {
-    return [[_infoDic objectForKey:MISSIONS] objectAtIndex:index];
+    return [[[_infoDic objectForKey:MISSIONS] objectAtIndex:index] copy];
 }
 
 - (NSArray *)enemiesByRace:(NSString *)race
 {
-    return [[_infoDic objectForKey:ENEMIES] objectForKey:race];
+    return [[[_infoDic objectForKey:ENEMIES] objectForKey:race] copy];
+}
+
+- (NSArray *)towersByRace:(NSString *)race
+{
+    return [[[_infoDic objectForKey:TOWERS] objectForKey:race] copy];
 }
 
 - (NSDictionary *)settingsForCategory:(NSString *)category
 {
-    return [_settingsDic objectForKey:category];
+    return [[_settingsDic objectForKey:category] copy];
 }
 
 - (void)updateSettings:(NSDictionary *)settings ForCategory:(NSString *)category

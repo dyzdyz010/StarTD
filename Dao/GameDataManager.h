@@ -84,6 +84,16 @@
  */
 - (NSArray *)enemiesByRace:(NSString *)race;
 
+/*!
+ *              获取指定种族的炮塔列表。
+ *
+ *  @param      race
+ *              指定的种族。
+ *
+ *  @result     对应种族的砲塔列表。
+ */
+- (NSArray *)towersByRace:(NSString *)race;
+
 #pragma mark -
 #pragma mark -设置相关
 

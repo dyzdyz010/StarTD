@@ -20,6 +20,7 @@
 #define SETTINGS @"Settings"
 #define UPGRADES @"Upgrades"
 #define ENEMIES  @"Enemies"
+#define TOWERS   @"Towers"
 
 // User definitions
 #define SKILLPOINT @"skill-point"   // 当前用户拥有的技能点。
@@ -62,6 +63,9 @@
 #define AMOUNT @"amount"
 #define MOVESPEED @"move-speed"
 #define HEALTH @"health"
+
+// Towers definitions
+#define COST @"cost"
 
 // Race definitions
 #define PROTOSS @"protoss"
