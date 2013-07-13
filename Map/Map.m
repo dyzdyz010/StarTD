@@ -54,6 +54,8 @@ BOOL equal(NGLvec3 a, NGLvec3 b)
     }
 }
 
+#pragma mark -
+
 @interface Map () {
     Byte *_heightData;
     Vertex *_vertics;
@@ -65,12 +67,12 @@ BOOL equal(NGLvec3 a, NGLvec3 b)
 - (void)loadHeightMap;
 - (void)loadNormal;
 - (NSError *)loadNormalMap;
-- (void)saveNormalMap;
+- (void)generateRoute;
 @end
 
 @implementation Map
 
-@synthesize width = _width, height = _height;
+@synthesize width = _width, height = _height, route = _route;
 
 + (id)mapFromName:(NSString *)name
 {
@@ -96,6 +98,7 @@ BOOL equal(NGLvec3 a, NGLvec3 b)
 - (void)loadMesh
 {
     [self loadHeightMap];
+    [self generateRoute];
     
     _indices = (unsigned int*)calloc((_width-1) * (_height-1) * 6, sizeof(unsigned int));
     //Face *_faces = (Face *)calloc((_width-1) * (_height-1) * 2, sizeof(Face));
@@ -124,6 +127,9 @@ BOOL equal(NGLvec3 a, NGLvec3 b)
         _structures[i * 9 + 7] = i % 2;
         _structures[i * 9 + 8] = (i + 1) % 2;
     }
+    
+    
+
     
     NGLMeshElements *elements = [[NGLMeshElements alloc] init];
     [elements addElement:(NGLElement){NGLComponentVertex, 0, 4, 0}];
@@ -154,7 +160,11 @@ BOOL equal(NGLvec3 a, NGLvec3 b)
     NSLog(@"Width: %d, Height: %d", _width, _height);
     CGDataProviderRef provider = CGImageGetDataProvider(imageRef);
     NSData *data = (__bridge id)CGDataProviderCopyData(provider);
-    _heightData = (Byte *)[data bytes];
+    Byte *bytes = (Byte *)[data bytes];
+    _heightData = calloc(_width * _height, sizeof(Byte));
+    for (int i = 0; i < _width * _height; i++) {
+        _heightData[i] = bytes[i * 4];
+    }
     
     _vertics = (Vertex *)calloc(_width * _height, sizeof(Vertex));
     for (int i = 0; i < _width * _height; i++) {
@@ -236,19 +246,101 @@ BOOL equal(NGLvec3 a, NGLvec3 b)
             _normData[i*4+1] * 1.0 / 255.0,
             _normData[i*4+2] * 1.0 / 255.0
         };
-        printf("Normal: (%hhu, %hhu, %hhu)\n", _normData[i*4], _normData[i*4+1], _normData[i*4+2]);
+        // printf("Normal: (%hhu, %hhu, %hhu)\n", _normData[i*4], _normData[i*4+1], _normData[i*4+2]);
     }
     
-    for (int i = 0; i < _width * _height * 4; i++) {
-        printf("%hhu ", _normData[i]);
-    }
+//    for (int i = 0; i < _width * _height * 4; i++) {
+//        printf("%hhu ", _normData[i]);
+//    }
     
     return nil;
 }
 
-- (void)saveNormalMap
+- (void)generateRoute
 {
+    _route = &(WayPoint){
+        0,
+        nil
+    };
+    Byte start = 15;
     
+    for (int i = 0; i < _width * _height; i++) {
+        if (_heightData[i] == start) {
+            _route->index = i;
+            break;
+        }
+    }
+    
+    WayPoint *now = _route;
+    while ([self findWayPoint:now->index]) {
+        now->next = [self findWayPoint:index];
+        now = now->next;
+    }
+    
+    now = _route;
+    while (now) {
+        printf("%d", now->index);
+        now = now->next;
+    }
+}
+
+- (WayPoint *)findWayPoint:(int)index
+{
+    Byte p = 22;
+    
+    // 正方向——右、左、下、上
+    if (_heightData[index + 1] == p) {
+        return &(WayPoint){
+            index + 1,
+            nil
+        };
+    }
+    if (_heightData[index - 1] == p) {
+        return &(WayPoint){
+            index - 1,
+            nil
+        };
+    }
+    if (_heightData[index + _width] == p) {
+        return &(WayPoint){
+            index + _width,
+            nil
+        };
+    }
+    if (_heightData[index - _width] == p) {
+        return &(WayPoint){
+            index - _width,
+            nil
+        };
+    }
+    
+    // 斜方向——右下、左下、右上、左上
+    if (_heightData[index + _width + 1]) {
+        return &(WayPoint){
+            index + _width + 1,
+            nil
+        };
+    }
+    if (_heightData[index + _width - 1]) {
+        return &(WayPoint){
+            index + _width - 1,
+            nil
+        };
+    }
+    if (_heightData[index - _width + 1]) {
+        return &(WayPoint){
+            index - _width + 1,
+            nil
+        };
+    }
+    if (_heightData[index - _width - 1]) {
+        return &(WayPoint){
+            index - _width - 1,
+            nil
+        };
+    }
+    
+    return nil;
 }
 
 @end

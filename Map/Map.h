@@ -38,6 +38,11 @@ typedef struct {
     NGLvec3 normal;
 } Face;
 
+typedef struct WayPoint {
+    int index;
+    struct WayPoint *next;
+} WayPoint;
+
 @interface Map : NGLMesh {
 }
 
@@ -46,6 +51,8 @@ typedef struct {
  */
 @property (nonatomic, readonly, assign) NSInteger width;
 @property (nonatomic, readonly, assign) NSInteger height;
+
+@property (nonatomic, readonly, assign) WayPoint *route;
 
 + (id)mapFromName:(NSString *)name;
 - (void)load;
