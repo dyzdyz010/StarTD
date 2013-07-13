@@ -50,11 +50,28 @@ typedef struct WayPoint {
  *				地形宽度。
  */
 @property (nonatomic, readonly, assign) NSInteger width;
+
+/*!
+ *				地形高度。
+ */
 @property (nonatomic, readonly, assign) NSInteger height;
 
+/*!
+ *				敌方单位路径指针。
+ */
 @property (nonatomic, readonly, assign) WayPoint *route;
 
+/*!
+ *				根据指定名称获取地图对象。
+ *
+ *  @param      name
+ *              要获取的地图的名称。
+ */
 + (id)mapFromName:(NSString *)name;
+
+/*!
+ *				载入地图数据，包括地形和路径。
+ */
 - (void)load;
 
 @end

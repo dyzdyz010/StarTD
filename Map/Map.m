@@ -98,10 +98,9 @@ BOOL equal(NGLvec3 a, NGLvec3 b)
 - (void)loadMesh
 {
     [self loadHeightMap];
-    [self generateRoute];
+    //[self generateRoute];
     
     _indices = (unsigned int*)calloc((_width-1) * (_height-1) * 6, sizeof(unsigned int));
-    //Face *_faces = (Face *)calloc((_width-1) * (_height-1) * 2, sizeof(Face));
     
     for (int i = 0; i < (_width-1) * (_height-1); i++) {
         _indices[i * 6]     =          i / (_width - 1) * _width + (i % (_width-1));
@@ -116,7 +115,6 @@ BOOL equal(NGLvec3 a, NGLvec3 b)
     
     float *_structures = (float *)calloc(_width * _height * 9, sizeof(float));
     for (int i = 0; i < _width * _height; i++) {
-        //printf("i=%d\n", i);
         _structures[i * 9] = _vertics[i].position.x;
         _structures[i * 9 + 1] = _vertics[i].position.y;
         _structures[i * 9 + 2] = _vertics[i].position.z;
@@ -146,8 +144,7 @@ BOOL equal(NGLvec3 a, NGLvec3 b)
     
     //NGLShaders *shader = [NGLShaders shadersWithFilesVertex:@"shader.vsh" andFragment:@"shader.fsh"];
     //_mesh.shaders = shader;
-    //[self performSelector:@selector(updateCoreMesh)];
-    //[self updateCoreMesh];
+    //[self compileCoreMesh];
     [self performSelector:@selector(updateCoreMesh)];
 }
 
@@ -184,6 +181,9 @@ BOOL equal(NGLvec3 a, NGLvec3 b)
 //    }
 //    printf("\n");
 }
+
+#pragma mark -
+#pragma mark 法线相关
 
 - (void)loadNormal
 {
@@ -256,6 +256,9 @@ BOOL equal(NGLvec3 a, NGLvec3 b)
     return nil;
 }
 
+#pragma mark -
+#pragma mark 寻径相关
+
 - (void)generateRoute
 {
     _route = &(WayPoint){
@@ -272,8 +275,10 @@ BOOL equal(NGLvec3 a, NGLvec3 b)
     }
     
     WayPoint *now = _route;
-    while ([self findWayPoint:now->index]) {
-        now->next = [self findWayPoint:index];
+    int preIndex = now->index;
+    while ([self findWayPoint:(now->index) previous:preIndex] != NULL) {
+        now->next = [self findWayPoint:now->index previous:preIndex];
+        preIndex = now->index;
         now = now->next;
     }
     
@@ -284,30 +289,33 @@ BOOL equal(NGLvec3 a, NGLvec3 b)
     }
 }
 
-- (WayPoint *)findWayPoint:(int)index
+- (WayPoint *)findWayPoint:(int)index previous:(int)pre
 {
+    //printf("Index: %d\n", index);
     Byte p = 22;
     
     // 正方向——右、左、下、上
-    if (_heightData[index + 1] == p) {
+    if (_heightData[index + 1] == p && (index + 1) != pre) {
+        //printf("Index: %d\n", index);
+
         return &(WayPoint){
             index + 1,
             nil
         };
     }
-    if (_heightData[index - 1] == p) {
+    if (_heightData[index - 1] == p && (index - 1) != pre) {
         return &(WayPoint){
             index - 1,
             nil
         };
     }
-    if (_heightData[index + _width] == p) {
+    if (_heightData[index + _width] == p && (index + _width) != pre) {
         return &(WayPoint){
             index + _width,
             nil
         };
     }
-    if (_heightData[index - _width] == p) {
+    if (_heightData[index - _width] == p && (index - _width) != pre) {
         return &(WayPoint){
             index - _width,
             nil
@@ -315,25 +323,25 @@ BOOL equal(NGLvec3 a, NGLvec3 b)
     }
     
     // 斜方向——右下、左下、右上、左上
-    if (_heightData[index + _width + 1]) {
+    if (_heightData[index + _width + 1] == p && (index + _width + 1) != pre) {
         return &(WayPoint){
             index + _width + 1,
             nil
         };
     }
-    if (_heightData[index + _width - 1]) {
+    if (_heightData[index + _width - 1] == p && (index + _width - 1) != pre) {
         return &(WayPoint){
             index + _width - 1,
             nil
         };
     }
-    if (_heightData[index - _width + 1]) {
+    if (_heightData[index - _width + 1] == p && (index - _width + 1) != pre) {
         return &(WayPoint){
             index - _width + 1,
             nil
         };
     }
-    if (_heightData[index - _width - 1]) {
+    if (_heightData[index - _width - 1] == p && (index - _width - 1) != pre) {
         return &(WayPoint){
             index - _width - 1,
             nil

@@ -123,10 +123,6 @@
 				<integer>10</integer>
 				<key>move-speed</key>
 				<integer>0</integer>
-				<key>attack-rate</key>
-				<integer>0</integer>
-				<key>attack-speed</key>
-				<integer>0</integer>
 				<key>health</key>
 				<integer>0</integer>
 			</dict>
@@ -137,10 +133,6 @@
 				<string></string>
 				<key>move-speed</key>
 				<string></string>
-				<key>attack-rate</key>
-				<string></string>
-				<key>attack-speed</key>
-				<string></string>
 				<key>health</key>
 				<string></string>
 			</dict>
@@ -150,10 +142,6 @@
 				<key>amount</key>
 				<string></string>
 				<key>move-speed</key>
-				<string></string>
-				<key>attack-rate</key>
-				<string></string>
-				<key>attack-speed</key>
 				<string></string>
 				<key>health</key>
 				<string></string>
@@ -168,10 +156,6 @@
 				<string></string>
 				<key>move-speed</key>
 				<string></string>
-				<key>attack-rate</key>
-				<string></string>
-				<key>attack-speed</key>
-				<string></string>
 				<key>health</key>
 				<string></string>
 			</dict>
@@ -182,10 +166,6 @@
 				<string></string>
 				<key>move-speed</key>
 				<string></string>
-				<key>attack-rate</key>
-				<string></string>
-				<key>attack-speed</key>
-				<string></string>
 				<key>health</key>
 				<string></string>
 			</dict>
@@ -195,10 +175,6 @@
 				<key>amount</key>
 				<string></string>
 				<key>move-speed</key>
-				<string></string>
-				<key>attack-rate</key>
-				<string></string>
-				<key>attack-speed</key>
 				<string></string>
 				<key>health</key>
 				<string></string>
@@ -213,10 +189,6 @@
 				<string></string>
 				<key>move-speed</key>
 				<string></string>
-				<key>attack-rate</key>
-				<string></string>
-				<key>attack-speed</key>
-				<string></string>
 				<key>health</key>
 				<string></string>
 			</dict>
@@ -227,10 +199,6 @@
 				<string></string>
 				<key>move-speed</key>
 				<string></string>
-				<key>attack-rate</key>
-				<string></string>
-				<key>attack-speed</key>
-				<string></string>
 				<key>health</key>
 				<string></string>
 			</dict>
@@ -240,10 +208,6 @@
 				<key>amount</key>
 				<string></string>
 				<key>move-speed</key>
-				<string></string>
-				<key>attack-rate</key>
-				<string></string>
-				<key>attack-speed</key>
 				<string></string>
 				<key>health</key>
 				<string></string>
