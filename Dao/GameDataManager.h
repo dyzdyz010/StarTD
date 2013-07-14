@@ -144,7 +144,26 @@
  */
 - (void)updateSettings:(NSDictionary *)settings ForCategory:(NSString *)category;
 
+#pragma mark -
+#pragma mark -用户相关
 
+/*!
+ *              当前用户选定关卡种族
+ *
+ *  @param      mission
+ *              选择的关卡
+ *
+ *  @param      race
+ *              选择的种族
+ */
+
+-(int)getSelectMission;
+
+-(int)getSelectRace;
+
+-(void)setSelectMission:(int)mission;
+
+-(void)setSelectRace:(int)race;
 
 
 @end

@@ -4,15 +4,12 @@
 <dict>
 	<key>User</key>
 	<dict>
+		<key>mission</key>
+		<integer>0</integer>
+		<key>race</key>
+		<integer>0</integer>
 		<key>skill-point</key>
-		<dict>
-			<key>protoss</key>
-			<integer>0</integer>
-			<key>terran</key>
-			<integer>0</integer>
-			<key>zerg</key>
-			<integer>0</integer>
-		</dict>
+		<integer>0</integer>
 		<key>level</key>
 		<dict>
 			<key>protoss</key>
@@ -58,17 +55,17 @@
 		<dict>
 			<key>effect</key>
 			<dict>
-				<key>mute</key>
-				<false/>
+				<key>enable</key>
+				<true/>
 				<key>volume</key>
-				<integer>50</integer>
+				<real>0.5</real>
 			</dict>
 			<key>music</key>
 			<dict>
-				<key>mute</key>
-				<false/>
+				<key>enable</key>
+				<true/>
 				<key>volume</key>
-				<integer>50</integer>
+				<real>0.5</real>
 			</dict>
 		</dict>
 		<key>graphics</key>
@@ -123,6 +120,10 @@
 				<integer>10</integer>
 				<key>move-speed</key>
 				<integer>0</integer>
+				<key>attack-rate</key>
+				<integer>0</integer>
+				<key>attack-speed</key>
+				<integer>0</integer>
 				<key>health</key>
 				<integer>0</integer>
 			</dict>
@@ -133,6 +134,10 @@
 				<string></string>
 				<key>move-speed</key>
 				<string></string>
+				<key>attack-rate</key>
+				<string></string>
+				<key>attack-speed</key>
+				<string></string>
 				<key>health</key>
 				<string></string>
 			</dict>
@@ -142,6 +147,10 @@
 				<key>amount</key>
 				<string></string>
 				<key>move-speed</key>
+				<string></string>
+				<key>attack-rate</key>
+				<string></string>
+				<key>attack-speed</key>
 				<string></string>
 				<key>health</key>
 				<string></string>
@@ -156,15 +165,9 @@
 				<string></string>
 				<key>move-speed</key>
 				<string></string>
-				<key>health</key>
+				<key>attack-rate</key>
 				<string></string>
-			</dict>
-			<dict>
-				<key>name</key>
-				<string></string>
-				<key>amount</key>
-				<string></string>
-				<key>move-speed</key>
+				<key>attack-speed</key>
 				<string></string>
 				<key>health</key>
 				<string></string>
@@ -175,6 +178,24 @@
 				<key>amount</key>
 				<string></string>
 				<key>move-speed</key>
+				<string></string>
+				<key>attack-rate</key>
+				<string></string>
+				<key>attack-speed</key>
+				<string></string>
+				<key>health</key>
+				<string></string>
+			</dict>
+			<dict>
+				<key>name</key>
+				<string></string>
+				<key>amount</key>
+				<string></string>
+				<key>move-speed</key>
+				<string></string>
+				<key>attack-rate</key>
+				<string></string>
+				<key>attack-speed</key>
 				<string></string>
 				<key>health</key>
 				<string></string>
@@ -189,6 +210,10 @@
 				<string></string>
 				<key>move-speed</key>
 				<string></string>
+				<key>attack-rate</key>
+				<string></string>
+				<key>attack-speed</key>
+				<string></string>
 				<key>health</key>
 				<string></string>
 			</dict>
@@ -199,6 +224,10 @@
 				<string></string>
 				<key>move-speed</key>
 				<string></string>
+				<key>attack-rate</key>
+				<string></string>
+				<key>attack-speed</key>
+				<string></string>
 				<key>health</key>
 				<string></string>
 			</dict>
@@ -209,128 +238,12 @@
 				<string></string>
 				<key>move-speed</key>
 				<string></string>
+				<key>attack-rate</key>
+				<string></string>
+				<key>attack-speed</key>
+				<string></string>
 				<key>health</key>
 				<string></string>
-			</dict>
-		</array>
-	</dict>
-	<key>Towers</key>
-	<dict>
-		<key>protoss</key>
-		<array>
-			<dict>
-				<key>name</key>
-				<string></string>
-				<key>attack-rate</key>
-				<integer>0</integer>
-				<key>attack-speed</key>
-				<integer>0</integer>
-				<key>attack-bound</key>
-				<integer>0</integer>
-				<key>cost</key>
-				<integer>0</integer>
-			</dict>
-			<dict>
-				<key>name</key>
-				<string></string>
-				<key>attack-rate</key>
-				<integer>0</integer>
-				<key>attack-speed</key>
-				<integer>0</integer>
-				<key>attack-bound</key>
-				<integer>0</integer>
-				<key>cost</key>
-				<integer>0</integer>
-			</dict>
-			<dict>
-				<key>name</key>
-				<string></string>
-				<key>attack-rate</key>
-				<integer>0</integer>
-				<key>attack-speed</key>
-				<integer>0</integer>
-				<key>attack-bound</key>
-				<integer>0</integer>
-				<key>cost</key>
-				<integer>0</integer>
-			</dict>
-		</array>
-		<key>terran</key>
-		<array>
-			<dict>
-				<key>name</key>
-				<string></string>
-				<key>attack-rate</key>
-				<integer>0</integer>
-				<key>attack-speed</key>
-				<integer>0</integer>
-				<key>attack-bound</key>
-				<integer>0</integer>
-				<key>cost</key>
-				<integer>0</integer>
-			</dict>
-			<dict>
-				<key>name</key>
-				<string></string>
-				<key>attack-rate</key>
-				<integer>0</integer>
-				<key>attack-speed</key>
-				<integer>0</integer>
-				<key>attack-bound</key>
-				<integer>0</integer>
-				<key>cost</key>
-				<integer>0</integer>
-			</dict>
-			<dict>
-				<key>name</key>
-				<string></string>
-				<key>attack-rate</key>
-				<integer>0</integer>
-				<key>attack-speed</key>
-				<integer>0</integer>
-				<key>attack-bound</key>
-				<integer>0</integer>
-				<key>cost</key>
-				<integer>0</integer>
-			</dict>
-		</array>
-		<key>zerg</key>
-		<array>
-			<dict>
-				<key>name</key>
-				<string></string>
-				<key>attack-rate</key>
-				<integer>0</integer>
-				<key>attack-speed</key>
-				<integer>0</integer>
-				<key>attack-bound</key>
-				<integer>0</integer>
-				<key>cost</key>
-				<integer>0</integer>
-			</dict>
-			<dict>
-				<key>name</key>
-				<string></string>
-				<key>attack-rate</key>
-				<integer>0</integer>
-				<key>attack-speed</key>
-				<integer>0</integer>
-				<key>attack-bound</key>
-				<integer>0</integer>
-				<key>cost</key>
-				<integer>0</integer>
-			</dict>
-			<dict>
-				<key>name</key>
-				<string></string>
-				<key>attack-rate</key>
-				<integer>0</integer>
-				<key>attack-speed</key>
-				<integer>0</integer>
-				<key>attack-bound</key>
-				<integer>0</integer>
-				<key>cost</key>
-				<integer>0</integer>
 			</dict>
 		</array>
 	</dict>

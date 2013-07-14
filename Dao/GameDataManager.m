@@ -170,4 +170,22 @@ static GameDataManager *instance;
     [_infoDic writeToFile:dstPath atomically:YES];
 }
 
+-(int)getSelectMission{
+     return [[_userDic valueForKey:MISSION] intValue];
+}
+
+-(int)getSelectRace{
+    return [[_userDic valueForKey:RACE] intValue];
+}
+
+-(void)setSelectMission:(int)mission{
+    [_userDic setValue:[NSNumber numberWithInt:mission] forKey:MISSION];
+    NSLog(@"misssion:%d",mission);
+}
+
+-(void)setSelectRace:(int)race{
+    [_userDic setValue:[NSNumber numberWithInt:race] forKey:RACE];
+    NSLog(@"race:%d",race);
+}
+
 @end

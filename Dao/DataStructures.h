@@ -25,6 +25,8 @@
 // User definitions
 #define SKILLPOINT @"skill-point"   // 当前用户拥有的技能点。
 #define LEVEL @"level"              // 当前用户到达的关卡序号。
+#define MISSION @"mission" 
+#define RACE @"race" 
 
 // Missions definitions
 #define NAME @"name"
