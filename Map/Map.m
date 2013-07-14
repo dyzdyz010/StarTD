@@ -67,6 +67,7 @@ BOOL equal(NGLvec3 a, NGLvec3 b)
 - (void)loadHeightMap;
 - (void)loadNormal;
 - (NSError *)loadNormalMap;
+- (void)loadTexCoor;
 - (void)generateRoute;
 @end
 
@@ -99,6 +100,7 @@ BOOL equal(NGLvec3 a, NGLvec3 b)
 {
     [self loadHeightMap];
     [self generateRoute];
+    [self loadTexCoor];
     
     _indices = (unsigned int*)calloc((_width-1) * (_height-1) * 6, sizeof(unsigned int));
     
@@ -122,8 +124,8 @@ BOOL equal(NGLvec3 a, NGLvec3 b)
         _structures[i * 9 + 4] = _vertics[i].normal.x;
         _structures[i * 9 + 5] = _vertics[i].normal.y;
         _structures[i * 9 + 6] = _vertics[i].normal.z;
-        _structures[i * 9 + 7] = i % 2;
-        _structures[i * 9 + 8] = (i + 1) % 2;
+        _structures[i * 9 + 7] = _vertics[i].texCoor.x;
+        _structures[i * 9 + 8] = _vertics[i].texCoor.y;
     }
     
     
@@ -135,7 +137,7 @@ BOOL equal(NGLvec3 a, NGLvec3 b)
     [elements addElement:(NGLElement){NGLComponentTexcoord, 7, 2, 0}];
     
     NGLMaterial *material = [NGLMaterial material];
-    material.diffuseMap = [NGLTexture texture2DWithImage:[UIImage imageNamed:@"cube_back.jpg"]];
+    material.diffuseMap = [NGLTexture texture2DWithImage:[UIImage imageNamed:@"grass.jpg"]];
     
     [self setIndices:_indices count:(_width-1) * (_height-1) * 6];
     [self setStructures:_structures count:_width * _height * 9 stride:9];
@@ -244,12 +246,7 @@ BOOL equal(NGLvec3 a, NGLvec3 b)
             _normData[i*4+1] * 1.0 / 255.0,
             _normData[i*4+2] * 1.0 / 255.0
         };
-        // printf("Normal: (%hhu, %hhu, %hhu)\n", _normData[i*4], _normData[i*4+1], _normData[i*4+2]);
     }
-    
-//    for (int i = 0; i < _width * _height * 4; i++) {
-//        printf("%hhu ", _normData[i]);
-//    }
     
     return nil;
 }
@@ -291,11 +288,11 @@ BOOL equal(NGLvec3 a, NGLvec3 b)
     }
     now->next = nil;
     
-    now = _route;
-    while (now) {
-        printf("Index:%d\n", now->index);
-        now = now->next;
-    }
+//    now = _route;
+//    while (now) {
+//        printf("Index:%d\n", now->index);
+//        now = now->next;
+//    }
 }
 
 - (void)showIndex:(int)i
@@ -386,6 +383,25 @@ BOOL equal(NGLvec3 a, NGLvec3 b)
     }
     
     return NO;
+}
+
+- (void)loadTexCoor
+{
+    UIImage *normImg = [UIImage imageNamed:@"1textureMap.png"];
+    CGImageRef imageRef = [normImg CGImage];
+    _width = CGImageGetWidth(imageRef);
+    _height = CGImageGetHeight(imageRef);
+    CGDataProviderRef provider = CGImageGetDataProvider(imageRef);
+    NSData *data = (__bridge id)CGDataProviderCopyData(provider);
+    Byte *_texData = (Byte *)[data bytes];
+    
+    for (int i = 0; i < _width * _height; i++) {
+        _vertics[i].texCoor = (NGLvec2){
+            _texData[i*4] * 1.0 / 10.0,
+            _texData[i*4+1] * 1.0 / 10.0,
+        };
+        printf("Texture coordinates:(%f, %f)\n", _texData[i*4] * 1.0 / 255.0 / 10.0, _texData[i*4+1] * 1.0 / 255.0 / 10.0);
+    }
 }
 
 @end
