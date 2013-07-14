@@ -121,9 +121,35 @@ static GameDataManager *instance;
     return [[[_infoDic objectForKey:ENEMIES] objectForKey:race] copy];
 }
 
+- (NSDictionary *)enemyByName:(NSString *)name race:(NSString *)race
+{
+    NSArray *enemies = [[_infoDic objectForKey:ENEMIES] objectForKey:race];
+    
+    for (NSDictionary *enemy in enemies) {
+        if ([[enemy valueForKey:NAME] isEqualToString:name]) {
+            return enemy;
+        }
+    }
+    
+    return nil;
+}
+
 - (NSArray *)towersByRace:(NSString *)race
 {
     return [[[_infoDic objectForKey:TOWERS] objectForKey:race] copy];
+}
+
+- (NSDictionary *)towerByName:(NSString *)name race:(NSString *)race
+{
+    NSArray *towers = [[_infoDic objectForKey:TOWERS] objectForKey:race];
+    
+    for (NSDictionary *tower in towers) {
+        if ([[tower valueForKey:NAME] isEqualToString:name]) {
+            return tower;
+        }
+    }
+    
+    return nil;
 }
 
 - (NSDictionary *)settingsForCategory:(NSString *)category

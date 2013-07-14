@@ -98,7 +98,7 @@ BOOL equal(NGLvec3 a, NGLvec3 b)
 - (void)loadMesh
 {
     [self loadHeightMap];
-    //[self generateRoute];
+    [self generateRoute];
     
     _indices = (unsigned int*)calloc((_width-1) * (_height-1) * 6, sizeof(unsigned int));
     
@@ -276,79 +276,111 @@ BOOL equal(NGLvec3 a, NGLvec3 b)
     
     WayPoint *now = _route;
     int preIndex = now->index;
-    while ([self findWayPoint:(now->index) previous:preIndex] != NULL) {
-        now->next = [self findWayPoint:now->index previous:preIndex];
+    now->next = (WayPoint *)calloc(1, sizeof(WayPoint));
+    while ([self findWayPoint:(now->index) previous:preIndex next:now->next]) {
+        //[self findWayPoint:now->index previous:preIndex next:now->next];
         preIndex = now->index;
+        printf("%d", now->index);
         now = now->next;
+        now->next = (WayPoint *)calloc(1, sizeof(WayPoint));
     }
+    now->next = nil;
     
     now = _route;
     while (now) {
-        printf("%d", now->index);
+        printf("Index:%d\n", now->index);
         now = now->next;
     }
 }
 
-- (WayPoint *)findWayPoint:(int)index previous:(int)pre
+- (void)showIndex:(int)i
+{
+    if (i >= _width * _height || i < 0) {
+        printf("Index out of bound\n");
+    }
+}
+
+- (BOOL)findWayPoint:(int)index previous:(int)pre next:(WayPoint *)next
 {
     //printf("Index: %d\n", index);
     Byte p = 22;
-    
+
     // 正方向——右、左、下、上
+    [self showIndex:index + 1];
     if (_heightData[index + 1] == p && (index + 1) != pre) {
         //printf("Index: %d\n", index);
-
-        return &(WayPoint){
+        *next = (WayPoint){
             index + 1,
             nil
         };
+        return YES;
     }
+    
+    [self showIndex:index - 1];
     if (_heightData[index - 1] == p && (index - 1) != pre) {
-        return &(WayPoint){
+        *next = (WayPoint){
             index - 1,
             nil
         };
+        return YES;
     }
+    
+    [self showIndex:index + _width];
     if (_heightData[index + _width] == p && (index + _width) != pre) {
-        return &(WayPoint){
+        *next = (WayPoint){
             index + _width,
             nil
         };
+        return YES;
     }
+    
+    [self showIndex:index - _width];
     if (_heightData[index - _width] == p && (index - _width) != pre) {
-        return &(WayPoint){
+        *next = (WayPoint){
             index - _width,
             nil
         };
+        return YES;
     }
     
     // 斜方向——右下、左下、右上、左上
+    [self showIndex:index + _width + 1];
     if (_heightData[index + _width + 1] == p && (index + _width + 1) != pre) {
-        return &(WayPoint){
+        *next = (WayPoint){
             index + _width + 1,
             nil
         };
+        return YES;
     }
+    
+    [self showIndex:index + _width - 1];
     if (_heightData[index + _width - 1] == p && (index + _width - 1) != pre) {
-        return &(WayPoint){
+        *next = (WayPoint){
             index + _width - 1,
             nil
         };
+        return YES;
     }
+    
+    [self showIndex:index - _width + 1];
     if (_heightData[index - _width + 1] == p && (index - _width + 1) != pre) {
-        return &(WayPoint){
+        *next = (WayPoint){
             index - _width + 1,
             nil
         };
+        return YES;
     }
+    
+    [self showIndex:index - _width - 1];
     if (_heightData[index - _width - 1] == p && (index - _width - 1) != pre) {
-        return &(WayPoint){
+        *next = (WayPoint){
             index - _width - 1,
             nil
         };
+        return YES;
     }
     
-    return nil;
+    return NO;
 }
 
 @end
