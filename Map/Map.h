@@ -43,8 +43,7 @@ typedef struct WayPoint {
     struct WayPoint *next;
 } WayPoint;
 
-@interface Map : NGLMesh {
-}
+@interface Map : NGLMesh
 
 /*!
  *				地形宽度。
@@ -60,6 +59,16 @@ typedef struct WayPoint {
  *				敌方单位路径指针。
  */
 @property (nonatomic, readonly, assign) WayPoint *route;
+
+/*!
+ *				地图顶点数组。
+ */
+@property (nonatomic, readonly, assign) Vertex *vertics;
+
+/*!
+ *				地图路径长度。
+ */
+@property (nonatomic, readonly, assign) int routeLength;
 
 /*!
  *				根据指定名称获取地图对象。

@@ -58,7 +58,6 @@ BOOL equal(NGLvec3 a, NGLvec3 b)
 
 @interface Map () {
     Byte *_heightData;
-    Vertex *_vertics;
     unsigned int *_indices;
 }
 - (id)initWithName:(NSString *)name;
@@ -73,7 +72,7 @@ BOOL equal(NGLvec3 a, NGLvec3 b)
 
 @implementation Map
 
-@synthesize width = _width, height = _height, route = _route;
+@synthesize width = _width, height = _height, route = _route, vertics = _vertics, routeLength = _routeLength;
 
 + (id)mapFromName:(NSString *)name
 {
@@ -99,7 +98,6 @@ BOOL equal(NGLvec3 a, NGLvec3 b)
 - (void)loadMesh
 {
     [self loadHeightMap];
-    [self generateRoute];
     [self loadTexCoor];
     
     _indices = (unsigned int*)calloc((_width-1) * (_height-1) * 6, sizeof(unsigned int));
@@ -113,7 +111,7 @@ BOOL equal(NGLvec3 a, NGLvec3 b)
         _indices[i * 6 + 4] =          i / (_width - 1) * _width + (i % (_width-1)) + 1;
         _indices[i * 6 + 5] =          i / (_width - 1) * _width + (i % (_width-1));
     }
-    [self loadNormalMap];
+    [self loadNormal];
     
     float *_structures = (float *)calloc(_width * _height * 9, sizeof(float));
     for (int i = 0; i < _width * _height; i++) {
@@ -137,6 +135,8 @@ BOOL equal(NGLvec3 a, NGLvec3 b)
     [elements addElement:(NGLElement){NGLComponentTexcoord, 7, 2, 0}];
     
     NGLMaterial *material = [NGLMaterial material];
+    NSLog(@"Shinness: %f", material.shininess);
+    material.shininess = 10;
     material.diffuseMap = [NGLTexture texture2DWithImage:[UIImage imageNamed:@"grass.jpg"]];
     
     [self setIndices:_indices count:(_width-1) * (_height-1) * 6];
@@ -164,6 +164,7 @@ BOOL equal(NGLvec3 a, NGLvec3 b)
     for (int i = 0; i < _width * _height; i++) {
         _heightData[i] = bytes[i * 4];
     }
+    [self generateRoute];
     
     _vertics = (Vertex *)calloc(_width * _height, sizeof(Vertex));
     for (int i = 0; i < _width * _height; i++) {
@@ -272,6 +273,7 @@ BOOL equal(NGLvec3 a, NGLvec3 b)
     for (int i = 0; i < _width * _height; i++) {
         if (_heightData[i] == start) {
             _route->index = i;
+            _heightData[i] = 29;
             break;
         }
     }
@@ -288,11 +290,13 @@ BOOL equal(NGLvec3 a, NGLvec3 b)
     }
     now->next = nil;
     
-//    now = _route;
-//    while (now) {
-//        printf("Index:%d\n", now->index);
-//        now = now->next;
-//    }
+    now = _route;
+    int len = 0;
+    while (now->next) {
+        len += 1;
+        now = now->next;
+    }
+    _routeLength = len;
 }
 
 - (void)showIndex:(int)i
@@ -315,6 +319,7 @@ BOOL equal(NGLvec3 a, NGLvec3 b)
             index + 1,
             nil
         };
+        _heightData[index + 1] = 29;
         return YES;
     }
     
@@ -324,6 +329,7 @@ BOOL equal(NGLvec3 a, NGLvec3 b)
             index - 1,
             nil
         };
+        _heightData[index - 1] = 29;
         return YES;
     }
     
@@ -333,6 +339,7 @@ BOOL equal(NGLvec3 a, NGLvec3 b)
             index + _width,
             nil
         };
+        _heightData[index + _width] = 29;
         return YES;
     }
     
@@ -342,6 +349,7 @@ BOOL equal(NGLvec3 a, NGLvec3 b)
             index - _width,
             nil
         };
+        _heightData[index - _width] = 29;
         return YES;
     }
     
@@ -352,6 +360,7 @@ BOOL equal(NGLvec3 a, NGLvec3 b)
             index + _width + 1,
             nil
         };
+        _heightData[index + _width + 1] = 29;
         return YES;
     }
     
@@ -361,6 +370,7 @@ BOOL equal(NGLvec3 a, NGLvec3 b)
             index + _width - 1,
             nil
         };
+        _heightData[index + _width - 1] = 29;
         return YES;
     }
     
@@ -370,6 +380,7 @@ BOOL equal(NGLvec3 a, NGLvec3 b)
             index - _width + 1,
             nil
         };
+        _heightData[index - _width + 1] = 29;
         return YES;
     }
     
@@ -379,6 +390,7 @@ BOOL equal(NGLvec3 a, NGLvec3 b)
             index - _width - 1,
             nil
         };
+        _heightData[index - _width - 1] = 29;
         return YES;
     }
     

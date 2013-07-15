@@ -38,6 +38,8 @@
  *
  *  @param      race
  *              要获取的炮塔所属种族。
+ *
+ *  @result     指定的炮塔对象。
  */
 + (id)towerByName:(NSString *)name race:(NSString *)race;
 
