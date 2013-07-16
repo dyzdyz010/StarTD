@@ -75,27 +75,21 @@
 - (NSDictionary *)missionByIndex:(NSInteger)index;
 
 /*!
- *              获取指定种族的敌人单位列表。
+ *              获取敌人单位列表。
  *
- *  @param      race
- *              指定的种族。
- *
- *  @result     对应种族的敌人单位列表。
+ *  @result     敌人单位列表。
  */
-- (NSArray *)enemiesByRace:(NSString *)race;
+- (NSArray *)enemies;
 
 /*!
- *              获取指定种族的指定名称的敌人单位属性字典。
+ *              获取指定名称的敌人单位属性字典。
  *
  *  @param      name
  *              要获取的敌人单位的名称。
  *
- *  @param      race
- *              要获取的敌人单位所属的种族。
- *
  *  @result     对应的敌人单位属性对象。
  */
-- (NSDictionary *)enemyByName:(NSString *)name race:(NSString *)race;
+- (NSDictionary *)enemyByName:(NSString *)name;
 
 /*!
  *              获取指定种族的炮塔列表。

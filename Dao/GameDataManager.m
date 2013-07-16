@@ -116,14 +116,14 @@ static GameDataManager *instance;
     return [[[_infoDic objectForKey:MISSIONS] objectAtIndex:index] copy];
 }
 
-- (NSArray *)enemiesByRace:(NSString *)race
+- (NSArray *)enemies
 {
-    return [[[_infoDic objectForKey:ENEMIES] objectForKey:race] copy];
+    return [[_infoDic objectForKey:ENEMIES] copy];
 }
 
-- (NSDictionary *)enemyByName:(NSString *)name race:(NSString *)race
+- (NSDictionary *)enemyByName:(NSString *)name
 {
-    NSArray *enemies = [[_infoDic objectForKey:ENEMIES] objectForKey:race];
+    NSArray *enemies = [_infoDic objectForKey:ENEMIES];
     
     for (NSDictionary *enemy in enemies) {
         if ([[enemy valueForKey:NAME] isEqualToString:name]) {

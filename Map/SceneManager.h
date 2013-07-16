@@ -1,5 +1,5 @@
 //
-//  SceneDataManager.h
+//  SceneManager.h
 //  StarTD-Framework
 //
 //  Created by 杜 艺卓 on 7/15/13.
@@ -9,12 +9,11 @@
 #import <Foundation/Foundation.h>
 #import "Map.h"
 
-@interface SceneDataManager : NSObject
+@interface SceneManager : NSObject
 
 @property(nonatomic, readonly, assign) int routeLength;
 
++ (id)managerForMap:(Map *)map camera:(NGLCamera *)camara;
 
-+ (id)sharedManager;
-- (void)loadMap:(Map *)map;
-- (NGLvec3)positionByIndex:(int)index;
+- (void)render;
 @end

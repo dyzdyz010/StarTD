@@ -11,14 +11,9 @@
 @interface Enemy : NGLMesh
 
 /*!
- *              当前所在的位置索引。
+ *              下一个要到达的位置的索引。
  */
-@property (nonatomic, readonly, assign) int pos;
-
-/*!
- *              单位的移动速度。
- */
-@property (nonatomic, readonly, assign) float moveSpeed;
+@property (nonatomic, readonly, assign) int posIndex;
 
 /*!
  *              单位的生命值。
@@ -31,12 +26,17 @@
 @property (nonatomic, readonly, assign) int amount;
 
 /*!
+ *              单位是否已经走到路径终点。
+ */
+@property (nonatomic, readonly, assign) BOOL finished;
+
+/*!
  *              获取指定名称的敌人单位对象。
  *
  *  @param      要获取的单位的名称。
  */
-+ (id)enemyByName:(NSString *)name;
++ (id)enemyByName:(NSString *)name routeLength:(int)len mapWidth:(int)width;
 
-- (void)move;
+- (void)render:(NGLvec3)pos1 forRotate:(NGLvec3)pos2;
 
 @end
