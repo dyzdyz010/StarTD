@@ -135,7 +135,7 @@ BOOL equal(NGLvec3 a, NGLvec3 b)
     [elements addElement:(NGLElement){NGLComponentTexcoord, 7, 2, 0}];
     
     NGLMaterial *material = [NGLMaterial material];
-    NSLog(@"Shinness: %f", material.shininess);
+    //NSLog(@"Shinness: %f", material.shininess);
     material.shininess = 10;
     material.diffuseMap = [NGLTexture texture2DWithImage:[UIImage imageNamed:@"grass.png"]];
     
@@ -215,6 +215,7 @@ BOOL equal(NGLvec3 a, NGLvec3 b)
         //printf("Normal:(%f, %f, %f)\n", _faces[i*2].normal.x, _faces[i*2].normal.y, _faces[i*2].normal.z);
     }
     
+    Byte *normalBytes = (Byte *)calloc(_width * _height * 4, sizeof(Byte));
     for (int i = 0; i < _width * _height; i++) {
         NGLvec3 norm = {0.0, 0.0, 0.0};
         int num = 0;
@@ -228,12 +229,30 @@ BOOL equal(NGLvec3 a, NGLvec3 b)
             }
         }
         _vertics[i].normal = divide(norm, num);
+        normalBytes[i*4] = _vertics[i].normal.x * 1000000;
+        normalBytes[i*4+1] = _vertics[i].normal.y * 1000000 + 130;
+        normalBytes[i*4+2] = -_vertics[i].normal.z * 1000000;
+        normalBytes[i*4+3] = 255;
     }
+    for (int i = 0; i < _width * _height; i++) {
+        printf("Normal: (%d, %d, %d)\n", (int)(_vertics[i].normal.x*1000000), (int)(_vertics[i].normal.y*1000000), (int)(_vertics[i].normal.z*1000000));
+    }
+    NSString *path = [NSString stringWithFormat:@"%@/Documents/normal.png", NSHomeDirectory()];
+    UIImage *img = nil;
+    CGDataProviderRef dpRef = CGDataProviderCreateWithData(NULL, normalBytes, _width * _height * 4, nil);
+    CGColorSpaceRef colorSpace = CGColorSpaceCreateDeviceRGB();
+    
+    CGImageRef imgRef = CGImageCreate(_width, _height, 8, 32, 4*_width, colorSpace, kCGBitmapByteOrder32Big | kCGImageAlphaPremultipliedLast, dpRef, NULL, NO, kCGRenderingIntentDefault);
+    img = [UIImage imageWithCGImage:imgRef];
+    NSData *normData = UIImagePNGRepresentation(img);
+    [normData writeToFile:path atomically:YES];
+    
+    //CGContextRef imgRef = CGBitmapContextCreate(normalBytes, _width, _height, 8, 4*_width, CGColorSpaceCreateDeviceRGB(), kCGBitmapByteOrderDefault);
 }
 
 - (NSError *)loadNormalMap
 {
-    UIImage *normImg = [UIImage imageNamed:@"1normalMap.png"];
+    UIImage *normImg = [UIImage imageNamed:@"normal.png"];
     CGImageRef imageRef = [normImg CGImage];
     _width = CGImageGetWidth(imageRef);
     _height = CGImageGetHeight(imageRef);
@@ -243,9 +262,9 @@ BOOL equal(NGLvec3 a, NGLvec3 b)
     
     for (int i = 0; i < _width * _height; i++) {
         _vertics[i].normal = (NGLvec3){
-            _normData[i*4] * 1.0 / 255.0,
-            _normData[i*4+1] * 1.0 / 255.0,
-            _normData[i*4+2] * 1.0 / 255.0
+            _normData[i*4] * 1.0 / 1000000.0,
+            _normData[i*4+1] * 1.0 / 1000000.0,
+            _normData[i*4+2] * 1.0 / 1000000.0
         };
     }
     
@@ -264,7 +283,7 @@ BOOL equal(NGLvec3 a, NGLvec3 b)
 
 - (void)generateRoute
 {
-    _route = &(WayPoint){
+    WayPoint *_path = &(WayPoint){
         0,
         nil
     };
@@ -272,31 +291,40 @@ BOOL equal(NGLvec3 a, NGLvec3 b)
     
     for (int i = 0; i < _width * _height; i++) {
         if (_heightData[i] == start) {
-            _route->index = i;
+            _path->index = i;
             _heightData[i] = 29;
             break;
         }
     }
     
-    WayPoint *now = _route;
+    WayPoint *now = _path;
     int preIndex = now->index;
     now->next = (WayPoint *)calloc(1, sizeof(WayPoint));
     while ([self findWayPoint:(now->index) previous:preIndex next:now->next]) {
         //[self findWayPoint:now->index previous:preIndex next:now->next];
         preIndex = now->index;
-        printf("%d", now->index);
+        //printf("Node found:%d\n", now->index);
         now = now->next;
         now->next = (WayPoint *)calloc(1, sizeof(WayPoint));
     }
     now->next = nil;
     
-    now = _route;
+    now = _path;
     int len = 0;
     while (now->next) {
         len += 1;
         now = now->next;
     }
     _routeLength = len;
+    _route = (int*)calloc(_routeLength, sizeof(int));
+    now = _path;
+    int i = 0;
+    while (now->next) {
+        //printf("Node found:%d\n", now->index);
+        _route[i] = now->index;
+        i += 1;
+        now = now->next;
+    }
 }
 
 - (void)showIndex:(int)i
@@ -353,6 +381,7 @@ BOOL equal(NGLvec3 a, NGLvec3 b)
         return YES;
     }
     
+    //NSLog(@"斜方向！！！！！！！");
     // 斜方向——右下、左下、右上、左上
     [self showIndex:index + _width + 1];
     if (_heightData[index + _width + 1] == p && (index + _width + 1) != pre) {
@@ -412,7 +441,7 @@ BOOL equal(NGLvec3 a, NGLvec3 b)
             _texData[i*4] * 1.0 / 255.0,
             _texData[i*4+1] * 1.0 / 255.0,
         };
-        printf("Texture coordinates:(%f, %f)\n", _texData[i*4] * 1.0 / 255.0 / 10.0, _texData[i*4+1] * 1.0 / 255.0 / 10.0);
+        //printf("Texture coordinates:(%f, %f)\n", _texData[i*4] * 1.0 / 255.0 / 10.0, _texData[i*4+1] * 1.0 / 255.0 / 10.0);
     }
 }
 

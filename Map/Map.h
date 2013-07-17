@@ -9,8 +9,6 @@
 #import <Foundation/Foundation.h>
 #import "Tower.h"
 
-#define NAME @"height-map"
-
 #pragma mark -
 #pragma mark Vector operation functions
 //**********************************************************************************************************
@@ -65,7 +63,9 @@ typedef struct TowerPosition{
 /*!
  *				敌方单位路径指针。
  */
-@property (nonatomic, readonly, assign) WayPoint *route;
+//@property (nonatomic, readonly, assign) WayPoint *route;
+
+@property (nonatomic, readonly, assign) int *route;
 
 /*!
  *				地图顶点数组。
