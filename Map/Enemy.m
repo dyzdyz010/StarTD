@@ -53,7 +53,7 @@
 
 - (void)render:(NGLvec3)pos1 forRotate:(NGLvec3)pos2
 {
-    if (_posIndex >= _routeLength) {
+    if (_posIndex >= _routeLength - 1) {
         NSLog(@"Reach the destination.");
         _finished = YES;
         return;

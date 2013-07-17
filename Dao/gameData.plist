@@ -115,7 +115,7 @@
 			<key>name</key>
 			<string>Tank</string>
 			<key>move-speed</key>
-			<integer>10</integer>
+			<integer>3</integer>
 			<key>health</key>
 			<integer>200</integer>
 			<key>amount</key>

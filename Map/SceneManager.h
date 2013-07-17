@@ -13,11 +13,17 @@
 
 @property (nonatomic, readonly, assign) int routeLength;
 
-@property (nonatomic, retain) NSMutableArray *enemiesArray;
-
-@property (nonatomic, assign) Vertex *vertics;
-
 + (id)managerForMap:(Map *)map camera:(NGLCamera *)camara;
 
+- (void)addTower:(Tower *)tower;
+
+/*!
+ *				暂停游戏。
+ */
+- (void)gamePause;
+
+/*!
+ *				渲染循环。包括出兵过程和炮塔攻击过程。
+ */
 - (void)render;
 @end

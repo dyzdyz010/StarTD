@@ -33,10 +33,24 @@
 /*!
  *              获取指定名称的敌人单位对象。
  *
- *  @param      要获取的单位的名称。
+ *  @param      name
+ *              要获取的单位的名称。
+ *
+ *  @param      len
+ *              路径长度。
+ *
+ *  @param      width
+ *              地图宽度。
+ *
+ *  @result     对应的敌人单位对象。
  */
 + (id)enemyByName:(NSString *)name routeLength:(int)len mapWidth:(int)width;
 
+/*!
+ *              更新自身的位置。
+ *
+ *  @param      要获取的单位的名称。
+ */
 - (void)render:(NGLvec3)pos1 forRotate:(NGLvec3)pos2;
 
 @end

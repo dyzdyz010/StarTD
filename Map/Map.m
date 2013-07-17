@@ -252,7 +252,7 @@ BOOL equal(NGLvec3 a, NGLvec3 b)
 
 - (NSError *)loadNormalMap
 {
-    UIImage *normImg = [UIImage imageNamed:@"normal.png"];
+    UIImage *normImg = [UIImage imageNamed:@"1normalMap.png"];
     CGImageRef imageRef = [normImg CGImage];
     _width = CGImageGetWidth(imageRef);
     _height = CGImageGetHeight(imageRef);
