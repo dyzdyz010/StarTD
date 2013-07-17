@@ -7,6 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "Tower.h"
 
 #define NAME @"height-map"
 
@@ -43,6 +44,12 @@ typedef struct WayPoint {
     struct WayPoint *next;
 } WayPoint;
 
+typedef struct TowerPosition{
+    NGLvec3 position_3D;
+    NGLvec2 position_2D;
+    bool isBuild;
+} TowerPosition;
+
 @interface Map : NGLMesh
 
 /*!
@@ -71,6 +78,11 @@ typedef struct WayPoint {
 @property (nonatomic, readonly, assign) int routeLength;
 
 /*!
+ *				放塔位置数组。
+ */
+@property (nonatomic, readonly, assign) TowerPosition *twPositionSet;
+
+/*!
  *				根据指定名称获取地图对象。
  *
  *  @param      name
@@ -78,6 +90,7 @@ typedef struct WayPoint {
  */
 + (id)mapFromName:(NSString *)name;
 
+- (void) loadTowerPosition;
 /*!
  *				载入地图数据，包括地形和路径。
  */

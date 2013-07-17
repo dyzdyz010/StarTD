@@ -72,7 +72,7 @@ BOOL equal(NGLvec3 a, NGLvec3 b)
 
 @implementation Map
 
-@synthesize width = _width, height = _height, route = _route, vertics = _vertics, routeLength = _routeLength;
+@synthesize width = _width, height = _height, route = _route, vertics = _vertics, routeLength = _routeLength,twPositionSet = _twPositionSet;
 
 + (id)mapFromName:(NSString *)name
 {
@@ -99,7 +99,7 @@ BOOL equal(NGLvec3 a, NGLvec3 b)
 {
     [self loadHeightMap];
     [self loadTexCoor];
-    
+    [self loadTowerPosition];
     _indices = (unsigned int*)calloc((_width-1) * (_height-1) * 6, sizeof(unsigned int));
     
     for (int i = 0; i < (_width-1) * (_height-1); i++) {
@@ -111,7 +111,7 @@ BOOL equal(NGLvec3 a, NGLvec3 b)
         _indices[i * 6 + 4] =          i / (_width - 1) * _width + (i % (_width-1)) + 1;
         _indices[i * 6 + 5] =          i / (_width - 1) * _width + (i % (_width-1));
     }
-    [self loadNormal];
+    [self loadNormalMap];
     
     float *_structures = (float *)calloc(_width * _height * 9, sizeof(float));
     for (int i = 0; i < _width * _height; i++) {
@@ -137,7 +137,7 @@ BOOL equal(NGLvec3 a, NGLvec3 b)
     NGLMaterial *material = [NGLMaterial material];
     NSLog(@"Shinness: %f", material.shininess);
     material.shininess = 10;
-    material.diffuseMap = [NGLTexture texture2DWithImage:[UIImage imageNamed:@"grass.jpg"]];
+    material.diffuseMap = [NGLTexture texture2DWithImage:[UIImage imageNamed:@"grass.png"]];
     
     [self setIndices:_indices count:(_width-1) * (_height-1) * 6];
     [self setStructures:_structures count:_width * _height * 9 stride:9];
@@ -392,7 +392,7 @@ BOOL equal(NGLvec3 a, NGLvec3 b)
         };
         _heightData[index - _width - 1] = 29;
         return YES;
-    }
+    } 
     
     return NO;
 }
@@ -409,10 +409,52 @@ BOOL equal(NGLvec3 a, NGLvec3 b)
     
     for (int i = 0; i < _width * _height; i++) {
         _vertics[i].texCoor = (NGLvec2){
-            _texData[i*4] * 1.0 / 10.0,
-            _texData[i*4+1] * 1.0 / 10.0,
+            _texData[i*4] * 1.0 / 255.0,
+            _texData[i*4+1] * 1.0 / 255.0,
         };
         printf("Texture coordinates:(%f, %f)\n", _texData[i*4] * 1.0 / 255.0 / 10.0, _texData[i*4+1] * 1.0 / 255.0 / 10.0);
+    }
+}
+
+#pragma mark -
+//**********************************************************************************************************
+//
+//	读取放塔位置
+//
+//  从高度图中读取放塔位置并保存。
+//
+//**********************************************************************************************************
+#pragma mark 放塔相关
+
+- (void)loadTowerPosition
+{
+    _twPositionSet = (TowerPosition *)calloc(16, sizeof(TowerPosition));
+    for (int i = 0; i < 16; i++) {
+        _twPositionSet[i] = (TowerPosition){
+            (NGLvec3){0.0,0.0,0.0},
+            (NGLvec2){0.0,0.0},
+            NO
+        };
+    }
+    Byte position = 1;
+    int loc =0;
+    for (int i = 0; i < _width * _height; i++) {
+        if (_heightData[i] == position) {
+            _twPositionSet[loc].position_3D = _vertics[i].position;
+            NGLvec4 pos;
+            pos = (NGLvec4){
+                (_vertics[i].position).x,
+                (_vertics[i].position).y,
+                (_vertics[i].position).z,
+                1.0
+            };
+            NGLvec4 a = nglVec4ByMatrix(pos, *self.matrixMVP);
+            printf("Position loc      : %d \n", i);
+            printf("Position on screen: %f, %f, %f\n", a.x, a.y, a.z);
+            
+            _twPositionSet[loc].position_2D.x = a.x;
+            _twPositionSet[loc].position_2D.y = a.y;
+        }
     }
 }
 
