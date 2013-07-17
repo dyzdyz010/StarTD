@@ -11,7 +11,11 @@
 
 @interface SceneManager : NSObject
 
-@property(nonatomic, readonly, assign) int routeLength;
+@property (nonatomic, readonly, assign) int routeLength;
+
+@property (nonatomic, retain) NSMutableArray *enemiesArray;
+
+@property (nonatomic, assign) Vertex *vertics;
 
 + (id)managerForMap:(Map *)map camera:(NGLCamera *)camara;
 
