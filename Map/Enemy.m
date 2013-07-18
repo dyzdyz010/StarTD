@@ -65,7 +65,7 @@
     //printf("Delta: (%f, %f, %f)\n\n", delta.x, delta.y, delta.z);
     float deltaLen = nglVec3Length(delta);
     if (deltaLen < _moveSpeed / 2) {
-        NSLog(@"Turn!!!!!!!");
+        //NSLog(@"Turn!!!!!!!");
         *self.position = pos1;
         *self.rotation = delta;
         _posIndex += 1;

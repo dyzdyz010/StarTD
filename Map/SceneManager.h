@@ -13,7 +13,7 @@
 
 @property (nonatomic, readonly, assign) int routeLength;
 
-+ (id)managerForMap:(Map *)map camera:(NGLCamera *)camara;
++ (id)managerForMap:(Map *)map camera:(NGLCamera *)camara race:(NSString *)race;
 
 - (void)addTower:(Tower *)tower;
 

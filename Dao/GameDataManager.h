@@ -114,6 +114,16 @@
  */
 - (NSDictionary *)towerByName:(NSString *)name race:(NSString *)race;
 
+/*!
+ *              获取指定种族的基地信息。
+ *
+ *  @param      race
+ *              指定的种族。
+ *
+ *  @result     对应种族的基地信息字典。
+ */
+- (NSDictionary *)baseByRace:(NSString *)race;
+
 #pragma mark -
 #pragma mark -设置相关
 

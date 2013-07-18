@@ -152,6 +152,11 @@ static GameDataManager *instance;
     return nil;
 }
 
+- (NSDictionary *)baseByRace:(NSString *)race
+{
+    return [[_infoDic objectForKey:BASE] objectForKey:race];
+}
+
 - (NSDictionary *)settingsForCategory:(NSString *)category
 {
     return [[_settingsDic objectForKey:category] copy];

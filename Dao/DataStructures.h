@@ -21,6 +21,7 @@
 #define UPGRADES @"Upgrades"
 #define ENEMIES  @"Enemies"
 #define TOWERS   @"Towers"
+#define BASE     @"Base"
 
 // User definitions
 #define SKILLPOINT @"skill-point"   // 当前用户拥有的技能点。

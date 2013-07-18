@@ -2,6 +2,24 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
+	<key>Base</key>
+	<dict>
+		<key>protoss</key>
+		<dict>
+			<key>name</key>
+			<string>Nexus</string>
+		</dict>
+		<key>terran</key>
+		<dict>
+			<key>name</key>
+			<string>Nexus</string>
+		</dict>
+		<key>zerg</key>
+		<dict>
+			<key>name</key>
+			<string>Nexus</string>
+		</dict>
+	</dict>
 	<key>User</key>
 	<dict>
 		<key>mission</key>

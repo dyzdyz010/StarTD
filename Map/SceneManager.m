@@ -11,6 +11,8 @@
 #import "Tower.h"
 #import "GameDataManager.h"
 
+#define BASEHEALTH 1000
+
 @interface SceneManager () {
     NGLCamera *_camera;
     Vertex *_vertics;
@@ -21,10 +23,13 @@
     
     BOOL _pause;
     BOOL _newWave;
+    BOOL _finished;
     int _currentWave;
     int _mapWidth;
+    int _baseHealth;
 }
-- (id)initWithMap:(Map *)map camera:(NGLCamera *)camara;
+- (id)initWithMap:(Map *)map camera:(NGLCamera *)camara race:(NSString *)race;
+- (void)addBase:(NSString *)race;
 
 - (void)beginWave;
 - (void)addEnemy:(NSDictionary *)infoDic;
@@ -37,12 +42,12 @@
 
 @synthesize routeLength = _routeLength;
 
-+ (id)managerForMap:(Map *)map camera:(NGLCamera *)camara
++ (id)managerForMap:(Map *)map camera:(NGLCamera *)camara race:(NSString *)race
 {
-    return [[SceneManager alloc] initWithMap:map camera:(NGLCamera *)camara];
+    return [[SceneManager alloc] initWithMap:map camera:(NGLCamera *)camara race:race];
 }
 
-- (id)initWithMap:(Map *)map camera:(NGLCamera *)camara
+- (id)initWithMap:(Map *)map camera:(NGLCamera *)camara race:(NSString *)race
 {
     self = [super init];
     if (self) {
@@ -58,25 +63,27 @@
         _currentWave = 0;
         _pause = NO;
         _newWave = NO;
+        _finished = NO;
         _mapWidth = map.width;
         
-//        Enemy *e = [Enemy enemyByName:@"Tank" routeLength:_routeLength mapWidth:map.width];
-//        *e.position = (NGLvec3){
-//            _vertics[_routeIndex[0]].position.x,
-//            _vertics[_routeIndex[0]].position.y,
-//            _vertics[_routeIndex[0]].position.z
-//        };
-//        printf("Init location:(%f, %f, %f)\n", _vertics[_routeIndex[0]].position.x, _vertics[_routeIndex[0]].position.y, _vertics[_routeIndex[0]].position.z);
-//        [_enemiesArray addObject:e];
-//        [_camera addMesh:e];
-//        
-//        for (int i = 0; i < _routeLength; i++) {
-//            printf("Waypoint: (%f, %f, %f)\n", _vertics[_routeIndex[i]].position.x, _vertics[_routeIndex[i]].position.y, _vertics[_routeIndex[i]].position.z);
-//        }
-        
+        [self addBase:race];
     }
     
     return self;
+}
+
+- (void)addBase:(NSString *)race
+{
+    _baseHealth = BASEHEALTH;
+    NSDictionary *settings = [NSDictionary dictionaryWithObjectsAndKeys:
+                              @"0.3", kNGLMeshKeyNormalize,
+                              nil];
+    NSString *baseName = [NSString stringWithFormat:@"%@.obj", [[[GameDataManager sharedManager] baseByRace:race] valueForKey:NAME]];
+    NSLog(@"Base name: %@", baseName);
+    NGLMesh *base = [[NGLMesh alloc] initWithFile:baseName settings:settings delegate:nil];
+    NGLvec3 basePos = _vertics[_routeIndex[_routeLength-1]].position;
+    base.x = basePos.x; base.y = basePos.y; base.z = basePos.z;
+    [_camera addMesh:base];
 }
 
 - (void)addTower:(Tower *)tower
@@ -92,13 +99,17 @@
 
 - (void)beginWave
 {
+    if (_currentWave == [_enemiesInfoArray count]) {
+        _finished = YES;
+        return;
+    }
     _newWave = YES;
     [self performSelectorInBackground:@selector(addEnemy:) withObject:[_enemiesInfoArray objectAtIndex:_currentWave]];
 }
 
 - (void)addEnemy:(NSDictionary *)infoDic
 {
-    sleep(10);
+    sleep(1);
     
     for (int i = 0; i < [[infoDic valueForKey:AMOUNT] intValue]; i++) {
         Enemy *e = [Enemy enemyByName:[infoDic valueForKey:NAME] routeLength:_routeLength mapWidth:_mapWidth];
@@ -112,13 +123,13 @@
         [_camera addMesh:e];
         _newWave = NO;
         
-        sleep(3);
+        sleep(1);
     }
 }
 
 - (void)render
 {
-    if (_pause) {
+    if (_pause || _finished) {
         return;
     }
     
@@ -131,8 +142,8 @@
         if (_newWave) {
             return;
         } else {
-            _currentWave += 1;
             [self beginWave];
+            _currentWave += 1;
         }
     }
     for (int i = 0; i < [_enemiesArray count]; i++) {
