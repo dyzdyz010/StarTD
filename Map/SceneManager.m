@@ -20,12 +20,12 @@
     NSArray *_enemiesInfoArray;
     NSMutableArray *_enemiesArray;
     NSMutableArray *_towersArray;
+    NSString *_race;
     
     BOOL _pause;
     BOOL _newWave;
     BOOL _finished;
     int _currentWave;
-    int _mapWidth;
     int _baseHealth;
 }
 - (id)initWithMap:(Map *)map camera:(NGLCamera *)camara race:(NSString *)race;
@@ -40,7 +40,7 @@
 
 @implementation SceneManager
 
-@synthesize routeLength = _routeLength;
+@synthesize routeLength = _routeLength, mapWidth = _mapWidth;
 
 + (id)managerForMap:(Map *)map camera:(NGLCamera *)camara race:(NSString *)race
 {
@@ -55,6 +55,7 @@
         _routeLength = map.routeLength;
         _routeIndex = map.route;
         _camera = camara;
+        _race = race;
         
         _enemiesInfoArray = [[GameDataManager sharedManager] enemies];
         _enemiesArray = [[NSMutableArray alloc] init];
@@ -86,9 +87,9 @@
     [_camera addMesh:base];
 }
 
-- (void)addTower:(Tower *)tower
+- (void)addTowerByName:(NSString *)name
 {
-    [_towersArray addObject:tower];
+    Tower *tower = [Tower towerByName:name race:_race manager:self];
     [_camera addMesh:tower];
 }
 
@@ -105,6 +106,11 @@
     }
     _newWave = YES;
     [self performSelectorInBackground:@selector(addEnemy:) withObject:[_enemiesInfoArray objectAtIndex:_currentWave]];
+}
+
+- (void)addTowerByName:(NSString *)name position:(int)index
+{
+    
 }
 
 - (void)addEnemy:(NSDictionary *)infoDic

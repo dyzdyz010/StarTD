@@ -13,9 +13,16 @@
 
 @property (nonatomic, readonly, assign) int routeLength;
 
+@property (nonatomic, readonly, assign) int mapWidth;
+
 + (id)managerForMap:(Map *)map camera:(NGLCamera *)camara race:(NSString *)race;
 
-- (void)addTower:(Tower *)tower;
+/*!
+ *				添加炮塔。
+ *
+ *  @param      要添加的炮塔的名称
+ */
+- (void)addTowerByName:(NSString *)name position:(int)index;
 
 /*!
  *				暂停游戏。

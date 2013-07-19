@@ -8,6 +8,8 @@
 
 #import <NinevehGL/NinevehGL.h>
 
+@class SceneManager;
+
 @interface Tower : NGLMesh <NGLMeshDelegate>
 
 /*!
@@ -41,6 +43,6 @@
  *
  *  @result     指定的炮塔对象。
  */
-+ (id)towerByName:(NSString *)name race:(NSString *)race;
++ (id)towerByName:(NSString *)name race:(NSString *)race manager:(SceneManager *)manager;
 
 @end
