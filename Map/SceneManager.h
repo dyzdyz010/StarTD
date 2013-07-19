@@ -39,6 +39,11 @@ typedef enum {
  */
 @property (nonatomic, readonly, assign) GameStatus status;
 
+/*!
+ *				游戏内的金钱。
+ */
+@property (nonatomic, readonly, assign) int money;
+
 + (id)managerForMap:(Map *)map camera:(NGLCamera *)camara race:(NSString *)race;
 
 /*!
@@ -46,7 +51,7 @@ typedef enum {
  *
  *  @param      要添加的炮塔的名称
  */
-- (void)addTowerByName:(NSString *)name position:(int)index;
+- (void)addTowerByName:(NSString *)name position:(int)index cost:(int)cost;
 
 /*!
  *				暂停游戏。

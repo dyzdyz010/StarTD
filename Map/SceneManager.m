@@ -39,7 +39,11 @@
 
 @implementation SceneManager
 
-@synthesize routeLength = _routeLength, mapWidth = _mapWidth, twPositionSet = _twPositionSet, status = _status;
+@synthesize routeLength = _routeLength,
+               mapWidth = _mapWidth,
+          twPositionSet = _twPositionSet,
+                 status = _status,
+                  money = _money;
 
 + (id)managerForMap:(Map *)map camera:(NGLCamera *)camara race:(NSString *)race
 {
@@ -60,6 +64,7 @@
         _enemiesArray = [[NSMutableArray alloc] init];
         _towersArray = [[NSMutableArray alloc] init];
         
+        _money = 200;
         _currentWave = 0;
         _pause = NO;
         _newWave = NO;
@@ -87,10 +92,11 @@
     [_camera addMesh:base];
 }
 
-- (void)addTowerByName:(NSString *)name position:(int)index
+- (void)addTowerByName:(NSString *)name position:(int)index cost:(int)cost
 {
     Tower *tower = [Tower towerByName:name race:_race manager:self towerIndex:index];
     [_camera addMesh:tower];
+    _money -= cost;
 }
 
 - (void)gamePause
