@@ -30,9 +30,7 @@
     [elements addElement:(NGLElement){NGLComponentVertex, 0, 4, 0}];
     [elements addElement:(NGLElement){NGLComponentNormal, 4, 3, 0}];
     [elements addElement:(NGLElement){NGLComponentTexcoord, 7, 2, 0}];
-    
-    nglGlobalColorFormat(NGLColorFormatRGBA);
-    nglGlobalFlush();
+
     material = [NGLMaterial material];
     material.alpha = alphasize;
     material.diffuseMap = [NGLTexture texture2DWithImage:[UIImage imageNamed:text]];
@@ -42,7 +40,7 @@
     [_SmokeParticle setStructures:structures count:36 stride:9];
     [_SmokeParticle.meshElements addFromElements:elements];
     _SmokeParticle.material = material;
-    [_SmokeParticle performSelector:@selector(updateCoreMesh)];
+    //[_SmokeParticle performSelector:@selector(updateCoreMesh)];
   }
 -(void)SetAlpha:(float)alpha
 {
@@ -83,14 +81,6 @@
 -(void)Update: (NGLvec3)g_vpos
 {
 }
-
-- (void) dealloc
-{
-    [_SmokeParticle release];
-	
-	[super dealloc];
-}
-
 
 
 

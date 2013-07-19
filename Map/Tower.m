@@ -11,10 +11,20 @@
 #import "SceneManager.h"
 #import "Enemy.h"
 
+#import "SingerBullet.h"
+#import "AttractFire.h"
+
 @interface Tower () {
     SceneManager *_manager;
     NSTimer *fireTimer;
     NSMutableArray *_firePositionArray;
+    
+    SingerBullet *_bullet;
+    AttractFire *_fire;
+    
+    BOOL _attacking;
+    float _bulletMoveTime;
+    int _bulletCurrentTime;
 }
 - (id)initWithName:(NSString*)name race:(NSString *)race manager:(SceneManager *)manager towerIndex:(int)index;
 
@@ -49,6 +59,11 @@
         self.name = name;
         _manager = manager;
         _firePositionArray = [[NSMutableArray alloc] init];
+        _bullet = [[SingerBullet alloc] init];
+        //[manager.camera addMeshesFromArray:[_bullet GetSmokeArray]];
+        _attacking = NO;
+        _bulletMoveTime = 0.0;
+        _bulletCurrentTime = 0;
         
         NSDictionary *towerDic = [[GameDataManager sharedManager] towerByName:name race:race];
         _attackRate = [[towerDic valueForKey:ATTACKRATE] floatValue];
@@ -64,7 +79,7 @@
         fireTimer = [NSTimer scheduledTimerWithTimeInterval:1.0 / _attackSpeed target:self selector:@selector(fire) userInfo:nil repeats:YES];
         
         NGLvec3 pos = [_manager towerPositionByIndex:index];
-        self.x = pos.x; self.y = pos.y + 0.2; self.z = pos.z;
+        self.x = pos.x; self.y = pos.y; self.z = pos.z;
     }
     
     return self;
@@ -90,7 +105,56 @@
         if (e != nil) {
             e.health -= _attackRate;
             NSLog(@"Attack:%@", e.name);
+            NSDictionary *settings = [NSDictionary dictionaryWithObjectsAndKeys:
+                                      @"1.0", kNGLMeshKeyNormalize,
+                                      nil];
+            NGLvec3 startPos = (NGLvec3){
+                self.x,
+                self.y,
+                self.z
+            };
+            NGLvec3 endPos = (NGLvec3){
+                e.x,
+                e.y,
+                e.z
+            };
+            [_bullet InitBulletType:RED_SMALL_BULLET StarPos:startPos EndPos:endPos Setting:settings];
+            _bulletMoveTime = [_bullet GetBulletMovetime];
+            NSLog(@"Bullet total move time: %f", _bulletMoveTime);
+            [_manager.camera addMesh:[_bullet GetMesh]];
+            
+            _fire = [[AttractFire alloc]init];
+            [_fire InitExposionPos:endPos Setting:settings];
+            [_manager.camera addMesh:[_fire GetMesh]];
+            _attacking = YES;
         }
+    }
+}
+
+- (void)render
+{
+    if (_attacking) {
+        if (_bulletCurrentTime < _bulletMoveTime) {
+            [_bullet MoveBullet:_bulletCurrentTime];
+            _bulletCurrentTime += 1;
+            NSLog(@"Bullet current time: %d", _bulletCurrentTime);
+            
+            
+            NSLog(@"Current Time: %d", [_fire GetCurrentMesh]);
+        } else {
+            _attacking = NO;
+            _bulletCurrentTime = 1;
+            [_manager.camera removeMesh:[_bullet GetMesh]];
+            
+            for (int i=0; i<9; i++) {
+                [_manager.camera removeMesh:[_fire GetMesh]];
+                [_fire UpdateTexture:i];
+                [_manager.camera addMesh:[_fire GetMesh]];
+            }
+        }
+        
+       
+        NSLog(@"Tower render.");
     }
 }
 

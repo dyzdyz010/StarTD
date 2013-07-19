@@ -8,7 +8,7 @@
 
 #import <NinevehGL/NinevehGL.h>
 #define EX_MESHSIZE 9
-#define EX_CHANGEVELOCITY 27
+#define EX_CHANGEVELOCITY 9
 
 @interface AttractFire : NGLObject3D
 {

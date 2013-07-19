@@ -9,7 +9,7 @@
 #import <NinevehGL/NinevehGL.h>
 
 
-@interface CSmoke : NGLObject3D
+@interface CSmoke : NGLMesh
 {
     NGLMesh *_SmokeParticle;
     float   alphasize;

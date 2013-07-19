@@ -12,7 +12,7 @@
 
 - (void) InitExposionPos:(NGLvec3)pos Setting:(NSDictionary *)setting
 {
-    exposionsize = 0.05;
+    exposionsize = 0.2;
     currentmesh = 0;
     float structures[] = {
         pos.x-exposionsize, pos.y-exposionsize, 0.0f, 1.0f, 1.0f, 1.0f, 1.0f, 0.0f, 0.0f,
@@ -30,9 +30,6 @@
     [elements addElement:(NGLElement){NGLComponentVertex, 0, 4, 0}];
     [elements addElement:(NGLElement){NGLComponentNormal, 4, 3, 0}];
     [elements addElement:(NGLElement){NGLComponentTexcoord, 7, 2, 0}];
-    
-    nglGlobalColorFormat(NGLColorFormatRGBA);
-    nglGlobalFlush();
     
     textname[0] = @"fire_1.png";
     textname[1] = @"fire_2.png";
@@ -53,7 +50,11 @@
         [_exposion[i] setStructures:structures count:36 stride:9];
         [_exposion[i].meshElements addFromElements:elements];
         _exposion[i].material = material;
-        [_exposion[i] performSelector:@selector(updateCoreMesh)];
+        //[_exposion[i] performSelector:@selector(updateCoreMesh)];
+        _exposion[i].x = pos.x;
+        _exposion[i].y = pos.y;
+        _exposion[i].z = pos.z;
+        NSLog(@"Explosion position: (%f, %f, %f)", _exposion[i].x, _exposion[i].y, _exposion[i].z);
     }
 }
 
@@ -73,17 +74,6 @@
 - (int)GetCurrentMesh
 {
     return currentmesh;
-}
-
-- (void) dealloc
-{
-    for (int i=0; i<EX_MESHSIZE; i++) {
-        [_exposion[i] release];
-    }
-    
-    [material release];
-    
-	[super dealloc];
 }
 
 

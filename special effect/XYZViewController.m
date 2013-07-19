@@ -147,16 +147,6 @@
 	return YES;
 }
 
-- (void) dealloc
-{
-	[_camera release];
-    [_test1 release];
-    [m_singlebullet release];
-	[m_areabullet release];
-    
-	[super dealloc];
-}
-
 - (IBAction)MoveStar:(id)sender {
     flag = 1;
 }

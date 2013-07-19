@@ -14,7 +14,7 @@
 #define FREQUENCY 0.005
 #define AMPLITUDE 0.1
 
-#define DIVISION 100
+#define DIVISION 26
 #define HALF 0.5
 #define STARTIME 0
 #define PI 3.1415926
@@ -39,7 +39,12 @@
     m_pos.y = starpos.y;
     m_pos.z = starpos.z;
     
-    m_bullet_v.x = VX;  //确定子弹在X轴方向上的运行时间
+    if (m_starpos.x < m_endpos.x) {
+         m_bullet_v.x = VX;  //确定子弹在X轴方向上的运行时间
+    }
+    else
+        m_bullet_v.x = -VX;  //确定子弹在X轴方向上的运行时间
+   
     period = m_distance.x/m_bullet_v.x;  //求出子弹运行时间
     m_bullet_v.y = m_distance.y/period;
     m_bullet_v.z = m_distance.z/period;
@@ -47,11 +52,12 @@
     switch (type) {
         case RED_BIG_BULLET:
             _bullet_mesh = [[NGLMesh alloc] initWithFile:@"cube.obj" settings:settings delegate:nil];
-            m_size = 0.04;
+            m_size = 0.01;
             break;
         case RED_SMALL_BULLET:
             _bullet_mesh = [[NGLMesh alloc] initWithFile:@"cube.obj" settings:settings delegate:nil];
-            m_size = 0.01;
+            m_size = 0.005;
+            break;
         default:
             break;
     }
@@ -65,12 +71,12 @@
     _bullet_mesh.scaleZ = m_size;
     
     //---------------smoke codo----------------//
-    for (int i=0; i<10; i++) {
-        bullet_smokes[i] = [[CSmoke alloc] init];
-        [bullet_smokes[i] InitSmokeText:@"smoke.png" Setting:settings BulletSize:0.01];
-    }
-
-    smokearray = [[NSMutableArray alloc] init];
+//    for (int i=0; i<10; i++) {
+//        bullet_smokes[i] = [[CSmoke alloc] init];
+//        [bullet_smokes[i] InitSmokeText:@"smoke.png" Setting:settings BulletSize:0.01];
+//    }
+//
+//    smokearray = [[NSMutableArray alloc] init];
 }
 
 -(NSMutableArray*) GetSmokeArray
@@ -84,10 +90,9 @@
     return smokearray;
 }
 
--
-(float) GetBulletMovetime
+-(float) GetBulletMovetime
 {
-    return period;
+    return abs(period);
 }
 
 //在此添加传入变量 时间
@@ -101,10 +106,11 @@
     m_vy_change = FREQUENCY*AMPLITUDE*cos(2*(act_movetime/DIVISION)*2*PI);
     m_vz_change = FREQUENCY*AMPLITUDE*cos(2*(act_movetime/DIVISION)*2*PI);
 
-    m_pos.x = m_starpos.x + m_bullet_v.x * act_movetime;
-    m_pos.y = AMPLITUDE*sin(4*(act_movetime/DIVISION)*2*PI) + m_bullet_v.y*act_movetime;
-    m_pos.z = AMPLITUDE*sin(4*(act_movetime/DIVISION)*2*PI) + m_bullet_v.z*act_movetime;
-   
+    m_pos.x = m_starpos.x + m_bullet_v.x * act_movetime + m_starpos.x;
+//    m_pos.y = AMPLITUDE*sin(4*(act_movetime/DIVISION)*2*PI) + m_bullet_v.y*act_movetime + m_starpos.y;
+//    m_pos.z = AMPLITUDE*sin(4*(act_movetime/DIVISION)*2*PI) + m_bullet_v.z*act_movetime + m_starpos.z;
+    m_pos.y = m_bullet_v.y*act_movetime + m_starpos.y;
+    m_pos.z = m_bullet_v.z*act_movetime + m_starpos.z;
     _bullet_mesh.x = m_pos.x;
     _bullet_mesh.y = m_pos.y;
     _bullet_mesh.z = m_pos.z;
@@ -112,32 +118,32 @@
     //-----------------------十个烟雾的初始化----------------------------//
     int act_movetime_int = act_movetime;
     
-    if (act_movetime <= 10) {
-        [bullet_smokes[act_movetime_int-1] GetSmokeMesh].visible = TRUE;
-        [bullet_smokes[act_movetime_int-1] SetSmokePos:m_pos];
-        [bullet_smokes[act_movetime_int-1] SetAlpha:1.0f];
-    }
-    
-    int smoketime;
-    if (act_movetime > 10) {
-        smoketime = act_movetime_int%10;
-    }
-    else
-        smoketime = act_movetime;
-   
-    if (smoketime == 0) {
-        smoketime = 10;
-    }
-    //-------------smoketime [1, 10]---------------//
-    
-    for (int i=0; i<10; i++) {
-        [bullet_smokes[i] RenderSmoke:(10+i-smoketime)*1.0/10];
-        
-        if ([bullet_smokes[i] GetAlpha] < 0.1f) {
-            [bullet_smokes[i] SetSmokePos:m_pos];
-            [bullet_smokes[i] RenderSmoke:0.9];
-        }
-    }
+//    if (act_movetime <= 10) {
+//        [bullet_smokes[act_movetime_int-1] GetSmokeMesh].visible = TRUE;
+//        [bullet_smokes[act_movetime_int-1] SetSmokePos:m_pos];
+//        [bullet_smokes[act_movetime_int-1] SetAlpha:1.0f];
+//    }
+//    
+//    int smoketime;
+//    if (act_movetime > 10) {
+//        smoketime = act_movetime_int%10;
+//    }
+//    else
+//        smoketime = act_movetime;
+//   
+//    if (smoketime == 0) {
+//        smoketime = 10;
+//    }
+//    //-------------smoketime [1, 10]---------------//
+//    
+//    for (int i=0; i<10; i++) {
+//        [bullet_smokes[i] RenderSmoke:(10+i-smoketime)*1.0/10];
+//        
+//        if ([bullet_smokes[i] GetAlpha] < 0.1f) {
+//            [bullet_smokes[i] SetSmokePos:m_pos];
+//            [bullet_smokes[i] RenderSmoke:0.9];
+//        }
+//    }
     
 }
 
@@ -157,26 +163,6 @@
 {
     return _bullet_mesh;
 }
-
-- (void) dealloc
-{
-    [_bullet_mesh release];
-    for (int i=0; i<10; i++) {
-        [bullet_smokes[i] release];
-    }
-    [smokearray release];
-    [super dealloc];
-}
-
-
-
-
-
-
-
-
-
-
 
 
 @end

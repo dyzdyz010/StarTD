@@ -50,7 +50,7 @@
         [_areabullet[i] setStructures:structures count:36 stride:9];
         [_areabullet[i].meshElements addFromElements:elements];
         _areabullet[i].material = material;
-        [_areabullet[i] performSelector:@selector(updateCoreMesh)];
+        //[_areabullet[i] performSelector:@selector(updateCoreMesh)];
     }
 }
 
@@ -73,16 +73,5 @@
 {
     return currentmesh;
 }
-
-- (void) dealloc
-{
-    for (int i=0; i<AB_MESHSIZE; i++) {
-        [_areabullet[i] release];
-    }
-    [material release];
-    
-	[super dealloc];
-}
-
 
 @end
