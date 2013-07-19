@@ -99,7 +99,15 @@ BOOL equal(NGLvec3 a, NGLvec3 b)
 {
     [self loadHeightMap];
     [self loadTexCoor];
-    [self loadTowerPosition];
+    //放塔位置
+    for (int i =0; i<8; i++) {
+        int index;
+        index = _twPositionSet[i].index;
+        _twPositionSet[i].position_3D.x = _vertics[index].position.x;
+        _twPositionSet[i].position_3D.y = _vertics[index].position.y;
+        _twPositionSet[i].position_3D.z = _vertics[index].position.z;
+    }
+    
     _indices = (unsigned int*)calloc((_width-1) * (_height-1) * 6, sizeof(unsigned int));
     
     for (int i = 0; i < (_width-1) * (_height-1); i++) {
@@ -165,6 +173,7 @@ BOOL equal(NGLvec3 a, NGLvec3 b)
         _heightData[i] = bytes[i * 4];
     }
     [self generateRoute];
+    [self loadTowerPosition];
     
     _vertics = (Vertex *)calloc(_width * _height, sizeof(Vertex));
     for (int i = 0; i < _width * _height; i++) {
@@ -457,9 +466,12 @@ BOOL equal(NGLvec3 a, NGLvec3 b)
 
 - (void)loadTowerPosition
 {
-    _twPositionSet = (TowerPosition *)calloc(16, sizeof(TowerPosition));
-    for (int i = 0; i < 16; i++) {
+    _twPositionSet = (TowerPosition *)calloc(8, sizeof(TowerPosition));
+    for (int i = 0; i < 8; i++) {
         _twPositionSet[i] = (TowerPosition){
+            i,
+            0,
+            0,
             (NGLvec3){0.0,0.0,0.0},
             (NGLvec2){0.0,0.0},
             NO
@@ -469,22 +481,59 @@ BOOL equal(NGLvec3 a, NGLvec3 b)
     int loc =0;
     for (int i = 0; i < _width * _height; i++) {
         if (_heightData[i] == position) {
-            _twPositionSet[loc].position_3D = _vertics[i].position;
-            NGLvec4 pos;
-            pos = (NGLvec4){
-                (_vertics[i].position).x,
-                (_vertics[i].position).y,
-                (_vertics[i].position).z,
-                1.0
-            };
-            NGLvec4 a = nglVec4ByMatrix(pos, *self.matrixMVP);
-            printf("Position loc      : %d \n", i);
-            printf("Position on screen: %f, %f, %f\n", a.x, a.y, a.z);
-            
-            _twPositionSet[loc].position_2D.x = a.x;
-            _twPositionSet[loc].position_2D.y = a.y;
+            _heightData[i] = 50+(loc+1)*10;
+            _twPositionSet[loc].index = i;
+            loc++;
         }
     }
 }
 
+- (void)updateTowerPosition:(NGLCamera *)camera
+{
+    for (int i =0; i<8; i++) {
+        int index;
+        index = _twPositionSet[i].index;
+        
+        _twPositionSet[i].position_3D.x = _vertics[index].position.x;
+        _twPositionSet[i].position_3D.y = _vertics[index].position.y;
+        _twPositionSet[i].position_3D.z = _vertics[index].position.z;
+    
+     NGLmat4 b;
+    nglMatrixIdentity(b);
+    b[3] = -camera.position->x;
+    b[7] = -camera.position->y;
+    b[11] = -camera.position->z;
+    
+        
+        //NGLmat4 b;
+        //nglMatrixMultiply(*camera.matrixProjection,*camera.matrixView ,b);
+       // NGLvec4 a = nglVec4ByMatrix(pos, *[self matrix]);
+         
+//        self.matrix;
+//        camera.matrixView;
+//        camera.matrixProjection;
+        
+         NGLvec4 pos;
+         pos = (NGLvec4){
+         (_vertics[index].position).x,
+         (_vertics[index].position).y,
+         (_vertics[index].position).z,
+         1.0
+         };
+        NGLmat4 tmp1,tmp2;
+        nglMatrixMultiply(*(camera.matrixView),b, tmp2);
+        nglMatrixMultiply(*(camera.matrixProjection),tmp2, tmp1);
+        NGLvec4 a = nglVec4ByMatrix(pos, tmp1);
+        a.x = a.x/a.w;
+        a.y = a.y/a.w;
+        printf("Position loc      : %d \n", i);
+        printf("Position on screen: %f, %f %f\n", ((a.x+1.0)/2.0)*1024.0, 768 - ((a.y+1.0)/2.0)*768.0, a.w);
+        
+        _twPositionSet[i].position_2D.x = a.x;
+        _twPositionSet[i].position_2D.y = a.y;
+    }
+    
+}
+
 @end
+
