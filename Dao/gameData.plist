@@ -14,7 +14,7 @@
 				<key>attack-bound</key>
 				<integer>7</integer>
 				<key>attack-speed</key>
-				<integer>3</integer>
+				<integer>1</integer>
 			</dict>
 			<dict>
 				<key>name</key>
@@ -34,7 +34,7 @@
 				<key>attack-bound</key>
 				<integer>9</integer>
 				<key>attack-speed</key>
-				<integer>3</integer>
+				<integer>1</integer>
 			</dict>
 		</array>
 		<key>terran</key>
@@ -47,7 +47,7 @@
 				<key>attack-bound</key>
 				<integer>6</integer>
 				<key>attack-speed</key>
-				<integer>5</integer>
+				<integer>1</integer>
 			</dict>
 			<dict>
 				<key>name</key>
@@ -57,7 +57,7 @@
 				<key>attack-bound</key>
 				<integer>5</integer>
 				<key>attack-speed</key>
-				<integer>2</integer>
+				<integer>1</integer>
 			</dict>
 			<dict>
 				<key>name</key>
@@ -80,7 +80,7 @@
 				<key>attack-bound</key>
 				<integer>7</integer>
 				<key>attack-speed</key>
-				<integer>3</integer>
+				<integer>1</integer>
 			</dict>
 			<dict>
 				<key>name</key>
@@ -90,7 +90,7 @@
 				<key>attack-bound</key>
 				<integer>6</integer>
 				<key>attack-speed</key>
-				<integer>2</integer>
+				<integer>1</integer>
 			</dict>
 			<dict>
 				<key>name</key>
