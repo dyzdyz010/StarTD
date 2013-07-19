@@ -43,6 +43,9 @@ typedef struct WayPoint {
 } WayPoint;
 
 typedef struct TowerPosition{
+    int tower_ID;
+    int index;
+    int type;
     NGLvec3 position_3D;
     NGLvec2 position_2D;
     bool isBuild;
@@ -91,6 +94,7 @@ typedef struct TowerPosition{
 + (id)mapFromName:(NSString *)name;
 
 - (void) loadTowerPosition;
+- (void) updateTowerPosition:(NGLCamera*)camera;
 /*!
  *				载入地图数据，包括地形和路径。
  */
