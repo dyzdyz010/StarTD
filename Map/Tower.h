@@ -32,6 +32,8 @@
  */
 @property (nonatomic, readonly, assign) int cost;
 
+@property (nonatomic, readonly, assign) int posIndex;
+
 /*!
  *				根据指定名称获取对应的炮塔对象。
  *
@@ -41,8 +43,14 @@
  *  @param      race
  *              要获取的炮塔所属种族。
  *
+ *  @param      manager
+ *              当前对象所属的SceneManager。
+ *
+ *  @param      index
+ *              炮塔的位置索引。
+ *
  *  @result     指定的炮塔对象。
  */
-+ (id)towerByName:(NSString *)name race:(NSString *)race manager:(SceneManager *)manager;
++ (id)towerByName:(NSString *)name race:(NSString *)race manager:(SceneManager *)manager towerIndex:(int)index;
 
 @end

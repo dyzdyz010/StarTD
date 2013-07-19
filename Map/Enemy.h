@@ -8,7 +8,9 @@
 
 #import <NinevehGL/NinevehGL.h>
 
-@interface Enemy : NGLMesh
+@class SceneManager;
+
+@interface Enemy : NGLMesh <NGLMeshDelegate>
 
 /*!
  *              下一个要到达的位置的索引。
@@ -18,7 +20,7 @@
 /*!
  *              单位的生命值。
  */
-@property (nonatomic, readonly, assign) int health;
+@property (nonatomic, readwrite, assign) int health;
 
 /*!
  *              单位出现的数量。
@@ -42,9 +44,20 @@
  *  @param      width
  *              地图宽度。
  *
+ *  @param      manager
+ *              所属的SceneManager对象。
+ *
  *  @result     对应的敌人单位对象。
  */
-+ (id)enemyByName:(NSString *)name routeLength:(int)len mapWidth:(int)width;
++ (id)enemyByName:(NSString *)name routeLength:(int)len mapWidth:(int)width manager:(SceneManager *)manager;
+
+/*!
+ *              设置对象的初始方向。
+ *
+ *  @param      direction
+ *              方向向量。
+ */
+- (void)initDirection:(NGLvec3)direction;
 
 /*!
  *              更新自身的位置。
