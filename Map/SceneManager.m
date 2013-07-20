@@ -32,8 +32,8 @@
 - (void)beginWave;
 - (void)addEnemy:(NSDictionary *)infoDic;
 
-//- (void)updateEnemyPosition;
-//- (void)updateTowerEffect;
+- (void)updateEnemyPosition;
+- (void)updateTowerEffect;
 
 @end
 
@@ -144,7 +144,7 @@
     }
     
     [self updateEnemyPosition];
-    //[self updateTowerEffect];
+    [self updateTowerEffect];
 }
 
 - (void)updateEnemyPosition
@@ -179,12 +179,12 @@
     }
 }
 
-//- (void)updateTowerEffect
-//{
-//    for (Tower *t in _towersArray) {
-//        [t render];
-//    }
-//}
+- (void)updateTowerEffect
+{
+    for (Tower *t in _towersArray) {
+        [t render];
+    }
+}
 
 - (NGLvec3)routePositionByIndex:(int)index
 {

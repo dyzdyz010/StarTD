@@ -112,7 +112,7 @@
     m_pos.y = m_bullet_v.y*act_movetime + m_starpos.y;
     m_pos.z = m_bullet_v.z*act_movetime + m_starpos.z;
     _bullet_mesh.x = m_pos.x;
-    _bullet_mesh.y = m_pos.y + 0.05;
+    _bullet_mesh.y = m_pos.y;
     _bullet_mesh.z = m_pos.z;
     
     //-----------------------十个烟雾的初始化----------------------------//

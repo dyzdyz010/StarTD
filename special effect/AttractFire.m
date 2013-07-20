@@ -50,7 +50,7 @@
         [_exposion[i] setStructures:structures count:36 stride:9];
         [_exposion[i].meshElements addFromElements:elements];
         _exposion[i].material = material;
-        
+        //[_exposion[i] performSelector:@selector(updateCoreMesh)];
         _exposion[i].x = pos.x;
         _exposion[i].y = pos.y;
         _exposion[i].z = pos.z;
@@ -66,8 +66,9 @@
 - (void)UpdateTexture:(float)time
 {
     int timeint = time;
-    currentmesh = timeint;
-    [_exposion[currentmesh] performSelector:@selector(updateCoreMesh)];
+  
+    currentmesh = timeint%EX_CHANGEVELOCITY;
+    currentmesh = currentmesh/EX_MESHSIZE;
 }
 
 - (int)GetCurrentMesh
