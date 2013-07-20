@@ -44,6 +44,8 @@ typedef enum {
  */
 @property (nonatomic, readonly, assign) int money;
 
+@property (nonatomic, readonly, retain) NGLCamera *camera;
+
 + (id)managerForMap:(Map *)map camera:(NGLCamera *)camara race:(NSString *)race;
 
 /*!

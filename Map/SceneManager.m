@@ -14,7 +14,6 @@
 #define BASEHEALTH 1000
 
 @interface SceneManager () {
-    NGLCamera *_camera;
     Vertex *_vertics;
     int *_routeIndex;
     NSArray *_enemiesInfoArray;
@@ -33,7 +32,8 @@
 - (void)beginWave;
 - (void)addEnemy:(NSDictionary *)infoDic;
 
-- (void)updateEnemyPosition;
+//- (void)updateEnemyPosition;
+//- (void)updateTowerEffect;
 
 @end
 
@@ -43,7 +43,8 @@
                mapWidth = _mapWidth,
           twPositionSet = _twPositionSet,
                  status = _status,
-                  money = _money;
+                  money = _money,
+                 camera = _camera;
 
 + (id)managerForMap:(Map *)map camera:(NGLCamera *)camara race:(NSString *)race
 {
@@ -96,6 +97,7 @@
 {
     Tower *tower = [Tower towerByName:name race:_race manager:self towerIndex:index];
     [_camera addMesh:tower];
+    [_towersArray addObject:tower];
     _money -= cost;
 }
 
@@ -142,6 +144,7 @@
     }
     
     [self updateEnemyPosition];
+    //[self updateTowerEffect];
 }
 
 - (void)updateEnemyPosition
@@ -176,6 +179,13 @@
     }
 }
 
+//- (void)updateTowerEffect
+//{
+//    for (Tower *t in _towersArray) {
+//        [t render];
+//    }
+//}
+
 - (NGLvec3)routePositionByIndex:(int)index
 {
     return _vertics[_routeIndex[index]].position;
@@ -183,6 +193,7 @@
 
 - (NGLvec3)towerPositionByIndex:(int)index
 {
+    _twPositionSet[index].isBuild = YES;
     return _twPositionSet[index].position_3D;
 }
 

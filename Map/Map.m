@@ -437,8 +437,8 @@ BOOL equal(NGLvec3 a, NGLvec3 b)
 
 - (void)loadTexCoor
 {
-    UIImage *normImg = [UIImage imageNamed:@"1textureMap.png"];
-    CGImageRef imageRef = [normImg CGImage];
+    UIImage *texCoorImg = [UIImage imageNamed:@"1textureMap.png"];
+    CGImageRef imageRef = [texCoorImg CGImage];
     _width = CGImageGetWidth(imageRef);
     _height = CGImageGetHeight(imageRef);
     CGDataProviderRef provider = CGImageGetDataProvider(imageRef);
@@ -481,7 +481,7 @@ BOOL equal(NGLvec3 a, NGLvec3 b)
     int loc =0;
     for (int i = 0; i < _width * _height; i++) {
         if (_heightData[i] == position) {
-            _heightData[i] = 50+(loc+1)*10;
+            _heightData[i] = 50;
             _twPositionSet[loc].index = i;
             loc++;
         }

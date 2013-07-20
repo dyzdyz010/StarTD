@@ -53,4 +53,6 @@
  */
 + (id)towerByName:(NSString *)name race:(NSString *)race manager:(SceneManager *)manager towerIndex:(int)index;
 
+//- (void)render;
+
 @end
