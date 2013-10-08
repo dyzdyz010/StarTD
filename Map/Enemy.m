@@ -68,7 +68,6 @@
 {
     if (_posIndex >= _routeLength - 2 || _health <= 0) {
         _finished = YES;
-        
         if (_health <= 0) {
             _health = 0;
         }

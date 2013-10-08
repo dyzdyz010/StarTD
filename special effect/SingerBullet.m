@@ -28,7 +28,7 @@
     m_distance.z = endpos.z - starpos.z;
     
     m_starpos.x = starpos.x;
-    m_starpos.y = starpos.y;
+    m_starpos.y = starpos.y+0.05;
     m_starpos.z = starpos.z;
     
     m_endpos.x = endpos.x;
@@ -48,19 +48,9 @@
     period = m_distance.x/m_bullet_v.x;  //求出子弹运行时间
     m_bullet_v.y = m_distance.y/period;
     m_bullet_v.z = m_distance.z/period;
-       
-    switch (type) {
-        case RED_BIG_BULLET:
-            _bullet_mesh = [[NGLMesh alloc] initWithFile:@"cube.obj" settings:settings delegate:nil];
-            m_size = 0.01;
-            break;
-        case RED_SMALL_BULLET:
-            _bullet_mesh = [[NGLMesh alloc] initWithFile:@"cube.obj" settings:settings delegate:nil];
-            m_size = 0.005;
-            break;
-        default:
-            break;
-    }
+    
+    _bullet_mesh = [[NGLMesh alloc] initWithFile:@"cube.obj" settings:settings delegate:nil];
+    m_size = 0.005;
     
     _bullet_mesh.x = m_pos.x;
     _bullet_mesh.y = m_pos.y;
@@ -98,25 +88,16 @@
 //在此添加传入变量 时间
 - (void) MoveBullet: (GLint) time
 {
-    act_movetime = time - STARTIME;
+    m_pos.x = m_bullet_v.x * time + m_starpos.x;
+    m_pos.y = m_bullet_v.y*time + m_starpos.y;
+    m_pos.z = m_bullet_v.z*time + m_starpos.z;
     
-    m_bullet_a.y = -FREQUENCY*FREQUENCY*AMPLITUDE*sin(2*(act_movetime/DIVISION)*2*PI);
-    m_bullet_a.z = -FREQUENCY*FREQUENCY*AMPLITUDE*sin(2*(act_movetime/DIVISION)*2*PI);
-    
-    m_vy_change = FREQUENCY*AMPLITUDE*cos(2*(act_movetime/DIVISION)*2*PI);
-    m_vz_change = FREQUENCY*AMPLITUDE*cos(2*(act_movetime/DIVISION)*2*PI);
-
-    m_pos.x = m_starpos.x + m_bullet_v.x * act_movetime + m_starpos.x;
-//    m_pos.y = AMPLITUDE*sin(4*(act_movetime/DIVISION)*2*PI) + m_bullet_v.y*act_movetime + m_starpos.y;
-//    m_pos.z = AMPLITUDE*sin(4*(act_movetime/DIVISION)*2*PI) + m_bullet_v.z*act_movetime + m_starpos.z;
-    m_pos.y = m_bullet_v.y*act_movetime + m_starpos.y;
-    m_pos.z = m_bullet_v.z*act_movetime + m_starpos.z;
     _bullet_mesh.x = m_pos.x;
     _bullet_mesh.y = m_pos.y;
     _bullet_mesh.z = m_pos.z;
     
     //-----------------------十个烟雾的初始化----------------------------//
-    int act_movetime_int = act_movetime;
+//    int act_movetime_int = act_movetime;
     
 //    if (act_movetime <= 10) {
 //        [bullet_smokes[act_movetime_int-1] GetSmokeMesh].visible = TRUE;

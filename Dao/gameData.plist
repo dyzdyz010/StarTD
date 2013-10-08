@@ -10,9 +10,9 @@
 				<key>name</key>
 				<string>Immortal</string>
 				<key>attack-rate</key>
-				<integer>50</integer>
+				<integer>30</integer>
 				<key>attack-bound</key>
-				<integer>7</integer>
+				<integer>30</integer>
 				<key>attack-speed</key>
 				<integer>1</integer>
 			</dict>
@@ -20,9 +20,9 @@
 				<key>name</key>
 				<string>PhotonCannon</string>
 				<key>attack-rate</key>
-				<integer>30</integer>
+				<integer>10</integer>
 				<key>attack-bound</key>
-				<integer>5</integer>
+				<integer>30</integer>
 				<key>attack-speed</key>
 				<integer>1</integer>
 			</dict>
@@ -30,9 +30,9 @@
 				<key>name</key>
 				<string>Stalker</string>
 				<key>attack-rate</key>
-				<integer>30</integer>
+				<integer>20</integer>
 				<key>attack-bound</key>
-				<integer>9</integer>
+				<integer>40</integer>
 				<key>attack-speed</key>
 				<integer>1</integer>
 			</dict>
@@ -43,9 +43,9 @@
 				<key>name</key>
 				<string>Bunker</string>
 				<key>attack-rate</key>
-				<integer>20</integer>
+				<integer>10</integer>
 				<key>attack-bound</key>
-				<integer>6</integer>
+				<integer>30</integer>
 				<key>attack-speed</key>
 				<integer>1</integer>
 			</dict>
@@ -53,9 +53,9 @@
 				<key>name</key>
 				<string>MisselTurret</string>
 				<key>attack-rate</key>
-				<integer>40</integer>
+				<integer>20</integer>
 				<key>attack-bound</key>
-				<integer>5</integer>
+				<integer>30</integer>
 				<key>attack-speed</key>
 				<integer>1</integer>
 			</dict>
@@ -63,9 +63,9 @@
 				<key>name</key>
 				<string>SiegeTank</string>
 				<key>attack-rate</key>
-				<integer>80</integer>
+				<integer>30</integer>
 				<key>attack-bound</key>
-				<integer>9</integer>
+				<integer>40</integer>
 				<key>attack-speed</key>
 				<integer>1</integer>
 			</dict>
@@ -76,9 +76,9 @@
 				<key>name</key>
 				<string>Hydralisk</string>
 				<key>attack-rate</key>
-				<integer>50</integer>
+				<integer>30</integer>
 				<key>attack-bound</key>
-				<integer>7</integer>
+				<integer>30</integer>
 				<key>attack-speed</key>
 				<integer>1</integer>
 			</dict>
@@ -86,9 +86,9 @@
 				<key>name</key>
 				<string>Mutalisk</string>
 				<key>attack-rate</key>
-				<integer>50</integer>
+				<integer>20</integer>
 				<key>attack-bound</key>
-				<integer>6</integer>
+				<integer>30</integer>
 				<key>attack-speed</key>
 				<integer>1</integer>
 			</dict>
@@ -96,9 +96,9 @@
 				<key>name</key>
 				<string>Queen</string>
 				<key>attack-rate</key>
-				<integer>90</integer>
+				<integer>10</integer>
 				<key>attack-bound</key>
-				<integer>9</integer>
+				<integer>40</integer>
 				<key>attack-speed</key>
 				<integer>1</integer>
 			</dict>
@@ -235,7 +235,7 @@
 			<key>name</key>
 			<string>Tank</string>
 			<key>move-speed</key>
-			<integer>3</integer>
+			<integer>8</integer>
 			<key>health</key>
 			<integer>200</integer>
 			<key>amount</key>
@@ -245,9 +245,9 @@
 			<key>name</key>
 			<string>Hellion</string>
 			<key>move-speed</key>
-			<integer>8</integer>
+			<integer>15</integer>
 			<key>health</key>
-			<integer>70</integer>
+			<integer>100</integer>
 			<key>amount</key>
 			<integer>10</integer>
 		</dict>
@@ -255,7 +255,7 @@
 			<key>name</key>
 			<string>Sentry</string>
 			<key>move-speed</key>
-			<integer>5</integer>
+			<integer>20</integer>
 			<key>health</key>
 			<integer>70</integer>
 			<key>amount</key>
@@ -265,7 +265,7 @@
 			<key>name</key>
 			<string>VoidRay</string>
 			<key>move-speed</key>
-			<integer>4</integer>
+			<integer>7</integer>
 			<key>health</key>
 			<integer>150</integer>
 			<key>amount</key>
@@ -275,7 +275,7 @@
 			<key>name</key>
 			<string>BroodLord</string>
 			<key>move-speed</key>
-			<integer>7</integer>
+			<integer>10</integer>
 			<key>health</key>
 			<integer>110</integer>
 			<key>amount</key>
@@ -285,9 +285,9 @@
 			<key>name</key>
 			<string>Overseer</string>
 			<key>move-speed</key>
-			<integer>6</integer>
+			<integer>20</integer>
 			<key>health</key>
-			<integer>60</integer>
+			<integer>70</integer>
 			<key>amount</key>
 			<integer>15</integer>
 		</dict>

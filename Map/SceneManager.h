@@ -40,9 +40,14 @@ typedef enum {
 @property (nonatomic, readonly, assign) GameStatus status;
 
 /*!
- *				游戏内的金钱。
+ *				游戏内的晶矿。
  */
-@property (nonatomic, readonly, assign) int money;
+@property (nonatomic, readonly, assign) int mineral;
+
+/*!
+ *				游戏内的气矿。
+ */
+@property (nonatomic, readonly, assign) int gas;
 
 @property (nonatomic, readonly, retain) NGLCamera *camera;
 

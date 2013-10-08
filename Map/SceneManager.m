@@ -10,6 +10,7 @@
 #import "Enemy.h"
 #import "Tower.h"
 #import "GameDataManager.h"
+#import "AudioManager.h"
 
 #define BASEHEALTH 1000
 
@@ -43,7 +44,8 @@
                mapWidth = _mapWidth,
           twPositionSet = _twPositionSet,
                  status = _status,
-                  money = _money,
+                mineral = _mineral,
+                    gas = _gas,
                  camera = _camera;
 
 + (id)managerForMap:(Map *)map camera:(NGLCamera *)camara race:(NSString *)race
@@ -65,7 +67,7 @@
         _enemiesArray = [[NSMutableArray alloc] init];
         _towersArray = [[NSMutableArray alloc] init];
         
-        _money = 200;
+        _mineral = 200;
         _currentWave = 0;
         _pause = NO;
         _newWave = NO;
@@ -98,7 +100,7 @@
     Tower *tower = [Tower towerByName:name race:_race manager:self towerIndex:index];
     [_camera addMesh:tower];
     [_towersArray addObject:tower];
-    _money -= cost;
+    _mineral -= cost;
 }
 
 - (void)gamePause
@@ -118,7 +120,7 @@
 
 - (void)addEnemy:(NSDictionary *)infoDic
 {
-    sleep(1);
+    sleep(3);
     
     for (int i = 0; i < [[infoDic valueForKey:AMOUNT] intValue]; i++) {
         Enemy *e = [Enemy enemyByName:[infoDic valueForKey:NAME] routeLength:_routeLength mapWidth:_mapWidth manager:self];
@@ -133,7 +135,7 @@
         [e initDirection:(NGLvec3){1.0, 0.0, 0.0}];
         _newWave = NO;
         
-        sleep(5);
+        sleep(1);
     }
 }
 
@@ -165,6 +167,8 @@
             NSLog(@"Base health: %d", _baseHealth);
             [_enemiesArray removeObject:e];
             [_camera removeMesh:e];
+            _mineral += 50;
+            _gas += 10;
             
             if (_baseHealth <= 0) {
                 _status = Lose;
